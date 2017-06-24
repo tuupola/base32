@@ -57,7 +57,7 @@ class Base32Test extends \PHPUnit_Framework_TestCase
 
     public function testShouldDecodeFoobar()
     {
-        $decoded = (string) (new PhpEncoder)->decode("MY======");
+        $decoded = (new PhpEncoder)->decode("MY======");
         $this->assertEquals("f", $decoded);
         $decoded = (new PhpEncoder)->decode("MZXQ====");
         $this->assertEquals("fo", $decoded);
@@ -105,10 +105,10 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $decoded4 = (new Base32)->decode($encoded4);
         $this->assertEquals($data, $decoded4);
 
-        // $encoded5 = Base32Proxy::encode($data);
-        // $decoded5 = Base32Proxy::decode($encoded5);
-        // $this->assertEquals($encoded, $encoded5);
-        // $this->assertEquals($data, $decoded5);
+        $encoded5 = Base32Proxy::encode($data);
+        $decoded5 = Base32Proxy::decode($encoded5);
+        $this->assertEquals($encoded, $encoded5);
+        $this->assertEquals($data, $decoded5);
     }
 
     // public function testShouldEncodeAndDecodeIntegers()
@@ -166,10 +166,10 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $decoded4 = (new Base32)->decode($encoded4);
         $this->assertEquals($data, $decoded4);
 
-        // $encoded5 = Base32Proxy::encode($data);
-        // $decoded5 = Base32Proxy::decode($encoded5);
-        // $this->assertEquals($encoded, $encoded5);
-        // $this->assertEquals($data, $decoded5);
+        $encoded5 = Base32Proxy::encode($data);
+        $decoded5 = Base32Proxy::decode($encoded5);
+        $this->assertEquals($encoded, $encoded5);
+        $this->assertEquals($data, $decoded5);
     }
 
     public function testShouldUseGmpCharacterSet()
@@ -194,12 +194,12 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $decoded4 = (new Base32(["characters" => Base32::GMP]))->decode($encoded4);
         $this->assertEquals($data, $decoded4);
 
-        // Base32Proxy::$options = [
-        //     "characters" => Base32::GMP,
-        // ];
-        // $encoded5 = Base32Proxy::encode($data);
-        // $decoded5 = Base32Proxy::decode($encoded5);
-        // $this->assertEquals($encoded5, "CPNMUOJ1");
-        // $this->assertEquals($data, $decoded5);
+        Base32Proxy::$options = [
+            "characters" => Base32::GMP,
+        ];
+        $encoded5 = Base32Proxy::encode($data);
+        $decoded5 = Base32Proxy::decode($encoded5);
+        $this->assertEquals($encoded5, "CPNMUOJ1");
+        $this->assertEquals($data, $decoded5);
     }
 }
