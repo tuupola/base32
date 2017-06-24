@@ -30,15 +30,15 @@ $decoded = $base32->decode($encoded);
 Note that if you are encoding to and from integer you need to pass boolean `true` as the second argument for `decode()` method. This is because `decode()` method does not know if the original data was an integer or binary data.
 
 ``` php
-$integer = $base32->encode(987654321); /* XXXXXX */
-print $base32->decode("14q60P", true); /* XXXXXXXXXX */
+$integer = $base32->encode(987654321); /* 5N42FR== */
+print $base32->decode("5N42FR==", true); /* 987654321 */
 ```
 
 Also note that encoding a string and an integer will yield different results.
 
 ``` php
-$integer = $base32->encode(987654321); /* XXXXXX */
-$string = $base32->encode("987654321"); /* XXXXXXXXXX */
+$integer = $base32->encode(987654321); /* 5N42FR== */
+$string = $base32->encode("987654321"); /* FHE4DONRVGQZTEMI= */
 ```
 
 ## Character Sets

@@ -31,14 +31,21 @@ class GmpEncoder
 
     public function encode($data)
     {
-        $data = trim($data);
         if (empty($data)) {
             return "";
         }
 
         /* Create binary string zeropadded to eight bits. */
-        $binary = gmp_strval(gmp_import($data), 2);
-        $binary = str_pad($binary, strlen($data) * 8, "0", STR_PAD_LEFT);
+        if (is_integer($data)) {
+            $binary = gmp_strval(gmp_init($data, 10), 2);
+            if ($modulus = strlen($binary) % 5) {
+                $padding = 5 - $modulus;
+                $binary = str_pad($binary, strlen($binary) + $padding, "0", STR_PAD_LEFT);
+            }
+        } else {
+            $binary = gmp_strval(gmp_import($data), 2);
+            $binary = str_pad($binary, strlen($data) * 8, "0", STR_PAD_LEFT);
+        }
 
         /* Split to five bit chunks and make sure last chunk has five bits. */
         $binary = str_split($binary, 5);
@@ -62,9 +69,8 @@ class GmpEncoder
         return $encoded;
     }
 
-    public function decode($data)
+    public function decode($data, $integer = false)
     {
-        $data = trim($data);
         if (empty($data)) {
             return "";
         }
@@ -77,6 +83,10 @@ class GmpEncoder
             }
         }, $data);
         $binary = implode("", $data);
+
+        if ($integer) {
+            return bindec($binary);
+        }
 
         /* Split to eight bit chunks. */
         $data = str_split($binary, 8);

@@ -111,31 +111,32 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $decoded5);
     }
 
-    // public function testShouldEncodeAndDecodeIntegers()
-    // {
-    //     $data = 987654321;
-    //     $encoded = (new PhpEncoder)->encode($data);
-    //     $encoded2 = (new GmpEncoder)->encode($data);
-    //     $encoded3 = (new BcmathEncoder)->encode($data);
-    //     $decoded = (new PhpEncoder)->decode($encoded, true);
-    //     $decoded2 = (new GmpEncoder)->decode($encoded2, true);
-    //     $decoded3 = (new BcmathEncoder)->decode($encoded2, true);
+    public function testShouldEncodeAndDecodeIntegers()
+    {
+        $data = 987654321;
+        $encoded = (new PhpEncoder)->encode($data);
+        $encoded2 = (new GmpEncoder)->encode($data);
+        //$encoded3 = (new BcmathEncoder)->encode($data);
+        $decoded = (new PhpEncoder)->decode($encoded, true);
+        $decoded2 = (new GmpEncoder)->decode($encoded2, true);
+        //$decoded3 = (new BcmathEncoder)->decode($encoded2, true);
 
-    //     $this->assertEquals($decoded2, $decoded);
-    //     $this->assertEquals($decoded3, $decoded);
-    //     $this->assertEquals($data, $decoded);
-    //     $this->assertEquals($data, $decoded2);
-    //     $this->assertEquals($data, $decoded3);
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($decoded2, $decoded);
+        //$this->assertEquals($decoded3, $decoded);
+        $this->assertEquals($data, $decoded);
+        $this->assertEquals($data, $decoded2);
+        //$this->assertEquals($data, $decoded3);
 
-    //     $encoded4 = (new Base32)->encode($data);
-    //     $decoded4 = (new Base32)->decode($encoded4, true);
-    //     $this->assertEquals($data, $decoded4);
+        $encoded4 = (new Base32)->encode($data);
+        $decoded4 = (new Base32)->decode($encoded4, true);
+        $this->assertEquals($data, $decoded4);
 
-    //     $encoded5 = Base32Proxy::encode($data);
-    //     $decoded5 = Base32Proxy::decode($encoded5, true);
-    //     $this->assertEquals($encoded, $encoded5);
-    //     $this->assertEquals($data, $decoded5);
-    // }
+        $encoded5 = Base32Proxy::encode($data);
+        $decoded5 = Base32Proxy::decode($encoded5, true);
+        $this->assertEquals($encoded, $encoded5);
+        $this->assertEquals($data, $decoded5);
+    }
 
     public function testShouldAutoSelectEncoder()
     {

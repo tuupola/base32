@@ -31,16 +31,23 @@ class PhpEncoder
 
     public function encode($data)
     {
-        $data = trim($data);
         if (empty($data)) {
             return "";
         }
 
-        /* Split to characters. */
-        $data = str_split($data);
-        $binary = implode("", array_map(function ($character) {
-            return sprintf("%08b", ord($character));
-        }, $data));
+        /* Create binary string zeropadded to eight bits. */
+        if (is_integer($data)) {
+            $binary = decbin($data);
+            if ($modulus = strlen($binary) % 5) {
+                $padding = 5 - $modulus;
+                $binary = str_pad($binary, strlen($binary) + $padding, "0", STR_PAD_LEFT);
+            }
+        } else {
+            $data = str_split($data);
+            $binary = implode("", array_map(function ($character) {
+                return sprintf("%08b", ord($character));
+            }, $data));
+        }
 
         /* Split to five bit chunks and make sure last chunk has five bits. */
         $binary = str_split($binary, 5);
@@ -64,9 +71,8 @@ class PhpEncoder
         return $encoded;
     }
 
-    public function decode($data)
+    public function decode($data, $integer = false)
     {
-        $data = trim($data);
         if (empty($data)) {
             return "";
         }
@@ -79,6 +85,10 @@ class PhpEncoder
             }
         }, $data);
         $binary = implode("", $data);
+
+        if ($integer) {
+            return bindec($binary);
+        }
 
         /* Split to eight bit chunks. */
         $data = str_split($binary, 8);
