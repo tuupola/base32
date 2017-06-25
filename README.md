@@ -41,6 +41,51 @@ $integer = $base32->encode(987654321); /* 5N42FR== */
 $string = $base32->encode("987654321"); /* FHE4DONRVGQZTEMI= */
 ```
 
+## Encoding Modes
+### RCF4684
+[RCF4684](https://tools.ietf.org/html/rfc4648) is the default when encoder is created without passing any parameters. Explicit parameters shown below.
+
+```php
+use Tuupola\Base32;
+
+$base32 = new Base32([
+    "characters" => Base32::RFC4648,
+    "padding" => "="
+]);
+
+print $base32->encode("Hello world!"); /* JBSWY3DPEB3W64TMMQQQ==== */
+```
+
+### RCF4684 HEX
+[RCF4684 base32hex](https://tools.ietf.org/html/rfc4648) encoding is identical to previous, except for the character set. This encoding is lexically sortable.
+
+```php
+$base32hex = new Base32([
+    "characters" => Base32::HEX,
+    "padding" => "="
+]);
+
+print $base32->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG==== */
+```
+
+### GMP
+[GMP](http://php.net/manual/en/book.gmp.php) encoding is identical to previous. Example below is shown with padding disabled.
+
+```php
+$gmp = new Base32([
+    "characters" => Base32::GMP,
+    "padding" => false
+]);
+
+print $gmp->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG */
+```
+
+### Crockford's Base32 [WIP]
+http://www.crockford.com/wrmg/base32.html
+
+### Z-base-32 [WIP]
+http://philzimmermann.com/docs/human-oriented-base-32-encoding.txt
+
 ## Character Sets
 
 By default Base32 uses RFC4648 character set. Shortcut is provided for other commonly used character sets. You can also use any custom character set of 32 unique characters.
@@ -50,7 +95,7 @@ use Tuupola\Base32;
 
 print Base32::CROCKFORD; /* 0123456789ABCDEFGHJKMNPQRSTVWXYZ */
 print Base32::RFC4648; /* ABCDEFGHIJKLMNOPQRSTUVWXYZ234567 */
-print Base32::ZBASE32; /* YBNDRFG8EJKMCPQXOT1UWISZA345H769 */
+print Base32::ZBASE32; /* ybndrfg8ejkmcpqxot1uwisza345h769 */
 print Base32::GMP; /* 0123456789ABCDEFGHIJKLMNOPQRSTUV */
 print Base32::HEX; /* 0123456789ABCDEFGHIJKLMNOPQRSTUV */
 
