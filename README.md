@@ -9,7 +9,7 @@ This library implements Base32 encoding. In addition to integers it can encode a
 
 ## Install
 
-Install with [composer](https://getcomposer.org/). There is no official release yet so you must use `dev-master`.
+Install with [composer](https://getcomposer.org/).
 
 ``` bash
 $ composer require tuupola/base32
