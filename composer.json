@@ -2,7 +2,7 @@
     "name": "tuupola/base32",
     "description": "Base32 encoder and decoder for arbitrary data",
     "keywords": [
-        "base62"
+        "base32"
     ],
     "homepage": "https://github.com/tuupola/base32",
     "license": "MIT",
