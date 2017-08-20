@@ -2,4 +2,4 @@
 /report/
 composer.lock
 .phplint-cache
-
+benchmarks/
