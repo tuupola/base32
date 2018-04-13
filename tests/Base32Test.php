@@ -91,7 +91,6 @@ class Base32Test extends TestCase
         $this->assertEquals("foobar", $decoded);
         $decoded = (new GmpEncoder)->decode(null);
         $this->assertEquals("", $decoded);
-        
     }
 
 
