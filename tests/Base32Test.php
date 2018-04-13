@@ -17,8 +17,9 @@ namespace Tuupola\Base32;
 
 use Tuupola\Base32;
 use Tuupola\Base32Proxy;
+use PHPUnit\Framework\TestCase;
 
-class Base32Test extends \PHPUnit_Framework_TestCase
+class Base32Test extends TestCase
 {
 
     public function testShouldBeTrue()
@@ -40,6 +41,8 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals("MZXW6YTB", $encoded);
         $encoded = (new PhpEncoder)->encode("foobar");
         $this->assertEquals("MZXW6YTBOI======", $encoded);
+        $encoded = (new PhpEncoder)->encode(null);
+        $this->assertEquals("", $encoded);
 
         $encoded = (new GmpEncoder)->encode("f");
         $this->assertEquals("MY======", $encoded);
@@ -53,6 +56,8 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals("MZXW6YTB", $encoded);
         $encoded = (new GmpEncoder)->encode("foobar");
         $this->assertEquals("MZXW6YTBOI======", $encoded);
+        $encoded = (new GmpEncoder)->encode(null);
+        $this->assertEquals("", $encoded);
     }
 
     public function testShouldDecodeFoobar()
@@ -69,6 +74,8 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals("fooba", $decoded);
         $decoded = (new PhpEncoder)->decode("MZXW6YTBOI======");
         $this->assertEquals("foobar", $decoded);
+        $decoded = (new PhpEncoder)->decode(null);
+        $this->assertEquals("", $decoded);
 
         $decoded = (string) (new GmpEncoder)->decode("MY======");
         $this->assertEquals("f", $decoded);
@@ -82,6 +89,9 @@ class Base32Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals("fooba", $decoded);
         $decoded = (new GmpEncoder)->decode("MZXW6YTBOI======");
         $this->assertEquals("foobar", $decoded);
+        $decoded = (new GmpEncoder)->decode(null);
+        $this->assertEquals("", $decoded);
+        
     }
 
 
