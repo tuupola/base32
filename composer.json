@@ -15,9 +15,7 @@
         }
     ],
     "require": {
-        "php" : "^5.6 || ^7.0",
-        "robinvdvleuten/ulid": "^1.0",
-        "lewiscowles/ulid": "^1.2"
+        "php" : "^5.6 || ^7.0"
     },
     "suggest": {
         "ext-gmp": "It can let string encoding progress be fast."
