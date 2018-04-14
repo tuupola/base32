@@ -27,72 +27,55 @@ class Base32Test extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testPhpShouldEncodeFoobar()
+    public function phpShouldEncodeFoobarProvider()
     {
-        $encoded = (new PhpEncoder)->encode("f");
-        $this->assertEquals("MY======", $encoded);
-        $encoded = (new PhpEncoder)->encode("fo");
-        $this->assertEquals("MZXQ====", $encoded);
-        $encoded = (new PhpEncoder)->encode("foo");
-        $this->assertEquals("MZXW6===", $encoded);
-        $encoded = (new PhpEncoder)->encode("foob");
-        $this->assertEquals("MZXW6YQ=", $encoded);
-        $encoded = (new PhpEncoder)->encode("fooba");
-        $this->assertEquals("MZXW6YTB", $encoded);
-        $encoded = (new PhpEncoder)->encode("foobar");
-        $this->assertEquals("MZXW6YTBOI======", $encoded);
-        $encoded = (new PhpEncoder)->encode(null);
-        $this->assertEquals("", $encoded);
-
-        $encoded = (new GmpEncoder)->encode("f");
-        $this->assertEquals("MY======", $encoded);
-        $encoded = (new GmpEncoder)->encode("fo");
-        $this->assertEquals("MZXQ====", $encoded);
-        $encoded = (new GmpEncoder)->encode("foo");
-        $this->assertEquals("MZXW6===", $encoded);
-        $encoded = (new GmpEncoder)->encode("foob");
-        $this->assertEquals("MZXW6YQ=", $encoded);
-        $encoded = (new GmpEncoder)->encode("fooba");
-        $this->assertEquals("MZXW6YTB", $encoded);
-        $encoded = (new GmpEncoder)->encode("foobar");
-        $this->assertEquals("MZXW6YTBOI======", $encoded);
-        $encoded = (new GmpEncoder)->encode(null);
-        $this->assertEquals("", $encoded);
+        return [
+            ["f", "MY======"],
+            ["fo", "MZXQ===="],
+            ["foo", "MZXW6==="],
+            ["foob", "MZXW6YQ="],
+            ["fooba", "MZXW6YTB"],
+            ["foobar", "MZXW6YTBOI======"],
+            [null, ""],
+        ];
     }
 
-    public function testShouldDecodeFoobar()
+    /**
+     * @dataProvider phpShouldEncodeFoobarProvider
+     */
+    public function testPhpShouldEncodeFoobar($string, $expected)
     {
-        $decoded = (new PhpEncoder)->decode("MY======");
-        $this->assertEquals("f", $decoded);
-        $decoded = (new PhpEncoder)->decode("MZXQ====");
-        $this->assertEquals("fo", $decoded);
-        $decoded = (new PhpEncoder)->decode("MZXW6===");
-        $this->assertEquals("foo", $decoded);
-        $decoded = (new PhpEncoder)->decode("MZXW6YQ=");
-        $this->assertEquals("foob", $decoded);
-        $decoded = (new PhpEncoder)->decode("MZXW6YTB");
-        $this->assertEquals("fooba", $decoded);
-        $decoded = (new PhpEncoder)->decode("MZXW6YTBOI======");
-        $this->assertEquals("foobar", $decoded);
-        $decoded = (new PhpEncoder)->decode(null);
-        $this->assertEquals("", $decoded);
+        $encoded = (new PhpEncoder)->encode($string);
+        $this->assertEquals($expected, $encoded);
 
-        $decoded = (string) (new GmpEncoder)->decode("MY======");
-        $this->assertEquals("f", $decoded);
-        $decoded = (new GmpEncoder)->decode("MZXQ====");
-        $this->assertEquals("fo", $decoded);
-        $decoded = (new GmpEncoder)->decode("MZXW6===");
-        $this->assertEquals("foo", $decoded);
-        $decoded = (new GmpEncoder)->decode("MZXW6YQ=");
-        $this->assertEquals("foob", $decoded);
-        $decoded = (new GmpEncoder)->decode("MZXW6YTB");
-        $this->assertEquals("fooba", $decoded);
-        $decoded = (new GmpEncoder)->decode("MZXW6YTBOI======");
-        $this->assertEquals("foobar", $decoded);
-        $decoded = (new GmpEncoder)->decode(null);
-        $this->assertEquals("", $decoded);
+        $encoded = (new GmpEncoder)->encode($string);
+        $this->assertEquals($expected, $encoded);
     }
 
+    public function shouldDecodeFoobarProvider()
+    {
+        return [
+            ["MY======", "f"],
+            ["MZXQ====", "fo"],
+            ["MZXW6====", "foo"],
+            ["MZXW6YQ=", "foob"],
+            ["MZXW6YTB", "fooba"],
+            ["MZXW6YTBOI======", "foobar"],
+            [null, ""],
+        ];
+    }
+
+    /**
+     * @dataProvider shouldDecodeFoobarProvider
+     */
+    public function testShouldDecodeFoobar($string, $expected)
+    {
+        $decoded = (new PhpEncoder)->decode($string);
+        $this->assertEquals($expected, $decoded);
+
+        $decoded = (string) (new GmpEncoder)->decode($string);
+        $this->assertEquals($expected, $decoded);
+    }
 
     public function testShouldEncodeAndDecodeRandomBytes()
     {
