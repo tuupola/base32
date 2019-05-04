@@ -44,4 +44,20 @@ class Base32
     {
         return $this->encoder->decode($data, $integer);
     }
+
+    /**
+     * Encode given integer to a base32 string
+     */
+    public function encodeInteger($data)
+    {
+        return $this->encoder->encodeInteger($data);
+    }
+
+    /**
+     * Decode given base32 string back to an integer
+     */
+    public function decodeInteger($data)
+    {
+        return $this->encoder->decodeInteger($data);
+    }
 }

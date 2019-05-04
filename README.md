@@ -5,7 +5,7 @@ This library implements Base32 encoding. In addition to integers it can encode a
 [![Latest Version](https://img.shields.io/packagist/v/tuupola/base32.svg?style=flat-square)](https://packagist.org/packages/tuupola/base32)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/tuupola/base32/master.svg?style=flat-square)](https://travis-ci.org/tuupola/base32)
-[![Coverage](http://img.shields.io/codecov/c/github/tuupola/base32.svg?style=flat-square)](https://codecov.io/github/tuupola/base32)
+[![Coverage](https://img.shields.io/codecov/c/github/tuupola/base32.svg?style=flat-square)](https://codecov.io/github/tuupola/base32)
 
 ## Install
 
@@ -26,17 +26,17 @@ $encoded = $base32->encode(random_bytes(128));
 $decoded = $base32->decode($encoded);
 ```
 
-Note that if you are encoding to and from integer you need to pass boolean `true` as the second argument for `decode()` method. This is because `decode()` method does not know if the original data was an integer or binary data.
+If you are encoding to and from integer use the implicit `decodeInteger()` and `encodeInteger()` methods.
 
 ``` php
-$integer = $base32->encode(987654321); /* 5N42FR== */
-print $base32->decode("5N42FR==", true); /* 987654321 */
+$integer = $base32->encodeInteger(987654321); /* 5N42FR== */
+print $base32->decodeInteger("5N42FR=="); /* 987654321 */
 ```
 
 Also note that encoding a string and an integer will yield different results.
 
 ``` php
-$integer = $base32->encode(987654321); /* 5N42FR== */
+$integer = $base32->encodeInteger(987654321); /* 5N42FR== */
 $string = $base32->encode("987654321"); /* FHE4DONRVGQZTEMI= */
 ```
 
