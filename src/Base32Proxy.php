@@ -23,12 +23,12 @@ class Base32Proxy
         "characters" => Base32::RFC4648,
     ];
 
-    public static function encode($data, $options = [])
+    public static function encode($data)
     {
         return (new Base32(self::$options))->encode($data);
     }
 
-    public static function decode($data, $integer = false, $options = [])
+    public static function decode($data, $integer = false)
     {
         return (new Base32(self::$options))->decode($data, $integer);
     }
