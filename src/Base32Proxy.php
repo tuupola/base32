@@ -32,4 +32,20 @@ class Base32Proxy
     {
         return (new Base32(self::$options))->decode($data, $integer);
     }
+
+    /**
+     * Encode given integer to a base32 string
+     */
+    public static function encodeInteger($data)
+    {
+        return (new Base32(self::$options))->encodeInteger($data);
+    }
+
+    /**
+     * Decode given base32 string back to an integer
+     */
+    public static function decodeInteger($data)
+    {
+        return (new Base32(self::$options))->decodeInteger($data);
+    }
 }

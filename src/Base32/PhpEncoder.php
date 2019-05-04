@@ -103,4 +103,20 @@ class PhpEncoder
             return chr(bindec($byte));
         }, $data));
     }
+
+    /**
+     * Encode given integer to a base85 string
+     */
+    public function encodeInteger($data)
+    {
+        return $this->encode($data, true);
+    }
+
+    /**
+     * Decode given base85 string back to an integer
+     */
+    public function decodeInteger($data)
+    {
+        return $this->decode($data, true);
+    }
 }

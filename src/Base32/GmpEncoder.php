@@ -102,4 +102,20 @@ class GmpEncoder
             return chr(bindec($byte));
         }, $data));
     }
+
+    /**
+     * Encode given integer to a base32 string
+     */
+    public function encodeInteger($data)
+    {
+        return $this->encode($data, true);
+    }
+
+    /**
+     * Decode given base32 string back to an integer
+     */
+    public function decodeInteger($data)
+    {
+        return $this->decode($data, true);
+    }
 }
