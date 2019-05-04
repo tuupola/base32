@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## [0.2.0](https://github.com/tuupola/base32/compare/0.1.1...master) - unreleased
+
+### Added
+- Implicit `decodeInteger()` and `encodeInteger()` methods ([#4](https://github.com/tuupola/base32/pull/4)).
+
 ## [0.1.1](https://github.com/tuupola/base32/compare/0.1.0...0.1.1) - 2018-04-13
 
 ### Fixed
