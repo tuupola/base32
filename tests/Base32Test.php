@@ -317,48 +317,48 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    // public function testShouldThrowExceptionOnDecodeInvalidData()
-    // {
-    //     $invalid = "invalid~data-%@#!@*#-foo";
-    //     $decoders = [
-    //         new PhpEncoder(),
-    //         new GmpEncoder(),
-    //         new Base32(),
-    //     ];
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
-    //         try {
-    //             $decoder->decode($invalid, false);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    // }
+    public function testShouldThrowExceptionOnDecodeInvalidData()
+    {
+        $invalid = "invalid~data-%@#!@*#-foo";
+        $decoders = [
+            new PhpEncoder(),
+            new GmpEncoder(),
+            new Base32(),
+        ];
+        foreach ($decoders as $decoder) {
+            $caught = null;
+            try {
+                $decoder->decode($invalid, false);
+            } catch (InvalidArgumentException $exception) {
+                $caught = $exception;
+            }
+            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
+        }
+    }
 
-    // public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
-    // {
-    //     /* This would normally be valid, however the custom character set */
-    //     /* is missing the e character. */
-    //     $invalid = "T8dgcjRGuYUueWht";
-    //     $options = [
-    //         "characters" => "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdxfghijklmnopqrstu"
-    //     ];
-    //     $decoders = [
-    //         new PhpEncoder($options),
-    //         new GmpEncoder($options),
-    //         new Base32($options),
-    //     ];
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
-    //         try {
-    //             $decoder->decode($invalid, false);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    // }
+    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
+    {
+        /* This would normally be valid, however the custom character set */
+        /* is missing the J character. */
+        $invalid = "JBSWY3DPEB3W64TMMQQQ====";
+        $options = [
+            "characters" => "0123456789ABCDEFGHIXKLMNOPQRSTUV"
+        ];
+        $decoders = [
+            new PhpEncoder($options),
+            new GmpEncoder($options),
+            new Base32($options),
+        ];
+        foreach ($decoders as $decoder) {
+            $caught = null;
+            try {
+                $decoder->decode($invalid, false);
+            } catch (InvalidArgumentException $exception) {
+                $caught = $exception;
+            }
+            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
+        }
+    }
 
     public function testShouldThrowExceptionWithInvalidCharacterSet()
     {

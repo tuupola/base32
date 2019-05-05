@@ -83,6 +83,17 @@ class PhpEncoder
             return "";
         }
 
+        /* If the data contains characters that aren't in the character set. */
+        $characters = $this->options["characters"] . (string) $this->options["padding"];
+        if (strlen($data) !== strspn($data, $characters)) {
+            $valid = str_split($this->options["characters"]);
+            $invalid = str_replace($valid, "", $data);
+            $invalid = count_chars($invalid, 3);
+            throw new InvalidArgumentException(
+                "Data contains invalid characters \"{$invalid}\""
+            );
+        }
+
         $data = str_split($data);
         $data = array_map(function ($character) {
             if ($character !== $this->options["padding"]) {
