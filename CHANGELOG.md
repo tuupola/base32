@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - Character set validation for configuration ([#6](https://github.com/tuupola/base32/pull/6)).
 - Character set validation for incoming data ([#7](https://github.com/tuupola/base32/pull/7)).
 
+### Removed
+- The unused and undocumented `$options` parameter from static proxy methods ([#5](https://github.com/tuupola/base32/pull/5)).
+
 ## [0.1.1](https://github.com/tuupola/base32/compare/0.1.0...0.1.1) - 2018-04-13
 
 ### Fixed
