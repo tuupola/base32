@@ -10,7 +10,7 @@
         {
             "name": "Mika Tuupola",
             "email": "tuupola@appelsiini.net",
-            "homepage": "http://www.appelsiini.net/",
+            "homepage": "https://appelsiini.net/",
             "role": "Developer"
         }
     ],
@@ -18,7 +18,7 @@
         "php" : "^5.6 || ^7.0"
     },
     "suggest": {
-        "ext-gmp": "It can let string encoding progress be fast."
+        "ext-gmp": "GMP extension provides the fastest encoding and decoding."
     },
     "autoload": {
         "psr-4": {
