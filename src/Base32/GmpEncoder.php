@@ -15,6 +15,7 @@
 
 namespace Tuupola\Base32;
 
+use InvalidArgumentException;
 use Tuupola\Base32;
 
 class GmpEncoder
@@ -27,6 +28,11 @@ class GmpEncoder
     public function __construct($options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
+
+        $uniques = count_chars($this->options["characters"], 3);
+        if (32 !== strlen($uniques) || 32 !== strlen($this->options["characters"])) {
+            throw new InvalidArgumentException("Character set must 32 unique characters");
+        }
     }
 
     public function encode($data)
