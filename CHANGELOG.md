@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 - Implicit `decodeInteger()` and `encodeInteger()` methods ([#4](https://github.com/tuupola/base32/pull/4)).
+- Character set validation for configuration ([#6](https://github.com/tuupola/base32/pull/6)).
 
 ## [0.1.1](https://github.com/tuupola/base32/compare/0.1.0...0.1.1) - 2018-04-13
 
