@@ -15,6 +15,7 @@
 
 namespace Tuupola\Base32;
 
+use InvalidArgumentException;
 use Tuupola\Base32;
 use Tuupola\Base32Proxy;
 use PHPUnit\Framework\TestCase;
@@ -322,7 +323,7 @@ class Base32Test extends TestCase
     //     $decoders = [
     //         new PhpEncoder(),
     //         new GmpEncoder(),
-    //         new Base85(),
+    //         new Base32(),
     //     ];
     //     foreach ($decoders as $decoder) {
     //         $caught = null;
@@ -346,7 +347,7 @@ class Base32Test extends TestCase
     //     $decoders = [
     //         new PhpEncoder($options),
     //         new GmpEncoder($options),
-    //         new Base85($options),
+    //         new Base32($options),
     //     ];
     //     foreach ($decoders as $decoder) {
     //         $caught = null;
@@ -359,38 +360,40 @@ class Base32Test extends TestCase
     //     }
     // }
 
-    // public function testShouldThrowExceptionWithInvalidCharacterSet()
-    // {
-    //     $options = [
-    //         "characters" => "!!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstu"
-    //     ];
-    //     $decoders = [
-    //         PhpEncoder::class,
-    //         GmpEncoder::class,
-    //         Base85::class,
-    //     ];
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
-    //         try {
-    //             new $decoder($options);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    //     $options = [
-    //         "characters" => "00123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    //     ];
-    //     foreach ($decoders as $decoder) {
-    //         $caught = null;
-    //         try {
-    //             new $decoder($options);
-    //         } catch (InvalidArgumentException $exception) {
-    //             $caught = $exception;
-    //         }
-    //         $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-    //     }
-    // }
+    public function testShouldThrowExceptionWithInvalidCharacterSet()
+    {
+        /* Only 31 characters. */
+        $options = [
+            "characters" => "123456789ABCDEFGHIJKLMNOPQRSTUV"
+        ];
+        $decoders = [
+            PhpEncoder::class,
+            GmpEncoder::class,
+            Base32::class,
+        ];
+        foreach ($decoders as $decoder) {
+            $caught = null;
+            try {
+                new $decoder($options);
+            } catch (InvalidArgumentException $exception) {
+                $caught = $exception;
+            }
+            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
+        }
+        /* Duplicate characters. */
+        $options = [
+            "characters" => "00123456789ABCDEFGHIJKLMNOPQRSTUV"
+        ];
+        foreach ($decoders as $decoder) {
+            $caught = null;
+            try {
+                new $decoder($options);
+            } catch (InvalidArgumentException $exception) {
+                $caught = $exception;
+            }
+            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
+        }
+    }
 
     public function configurationProvider()
     {
