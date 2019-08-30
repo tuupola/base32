@@ -399,7 +399,7 @@ class Base32Test extends TestCase
     {
         $encoded1 = "91JPRV3F41VPYWKCCGGJ0Y3R";
         $encoded2 = "91jprv3f41vpywkccggj0y3r";
-        $encoded3 = "9ljprv3f41vpywkccggjoy3r";
+        $encoded3 = "9ljp-rv3f4-1vpyw-kccgg-joy3r";
 
         $data = "Hello world! xx";
         $configuration = [

@@ -86,7 +86,7 @@ class PhpEncoder
 
         if (true === $this->options["crockford"]) {
             $data = strtoupper($data);
-            $data = str_replace(["O", "L", "I"], ["0", "1", "1"], $data);
+            $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
         /* If the data contains characters that aren't in the character set. */
