@@ -81,7 +81,7 @@ print $gmp->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG */
 
 ### Crockford's Base32
 
-When decoding, upper and lower case letters are accepted, and i and l will be treated as 1 and o will be treated as 0. When encoding, only upper case letters are used.
+When decoding, upper and lower case letters are accepted, and i and l will be treated as 1 and o will be treated as 0. When encoding, only upper case letters are used. Hyphens are ignored during decoding.
 
 ```php
 $crockford = new Base32([
