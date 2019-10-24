@@ -150,7 +150,7 @@ class PhpEncoder
     }
 
     /**
-     * Encode given integer to a base85 string
+     * Encode given integer to a base32 string
      */
     public function encodeInteger($data)
     {
@@ -158,7 +158,7 @@ class PhpEncoder
     }
 
     /**
-     * Decode given base85 string back to an integer
+     * Decode given base32 string back to an integer
      */
     public function decodeInteger($data)
     {
