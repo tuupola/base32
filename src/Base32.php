@@ -54,9 +54,9 @@ class Base32
     /**
      * Encode given data to a base32 string
      */
-    public function encode($data)
+    public function encode($data, $integer = false)
     {
-        return $this->encoder->encode($data);
+        return $this->encoder->encode($data, $integer);
     }
 
     /**

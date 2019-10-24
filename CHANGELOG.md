@@ -3,7 +3,10 @@
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
 ## [0.3.0](https://github.com/tuupola/base32/compare/0.2.0...master) - unreleased
+
+### Added
 - Support for Crockford mode ([#8](https://github.com/tuupola/base32/pull/8)).
+- Possibility to force integer encoding ([#9](https://github.com/tuupola/base32/pull/8)).
 
 ## [0.2.0](https://github.com/tuupola/base32/compare/0.1.1...0.2.0) - 2019-05-05
 

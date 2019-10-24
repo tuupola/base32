@@ -55,14 +55,14 @@ class GmpEncoder
     /**
      * Encode given data to a base32 string
      */
-    public function encode($data)
+    public function encode($data, $integer = false)
     {
         if (empty($data)) {
             return "";
         }
 
         /* Create binary string zeropadded to eight bits. */
-        if (is_integer($data)) {
+        if (is_integer($data) || true === $integer) {
             $binary = gmp_strval(gmp_init($data, 10), 2);
             if ($modulus = strlen($binary) % 5) {
                 $padding = 5 - $modulus;
