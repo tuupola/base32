@@ -124,17 +124,22 @@ class Base32Test extends TestCase
     public function testShouldEncodeAndDecodeRandomBytes($configuration)
     {
         $data = random_bytes(128);
+
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base32 = new Base32($configuration);
+
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
+
         Base32Proxy::$options = $configuration;
         $encoded5 = Base32Proxy::encode($data);
+
         $this->assertEquals($encoded2, $encoded);
         $this->assertEquals($encoded4, $encoded);
         $this->assertEquals($encoded5, $encoded);
+
         $this->assertEquals($data, $php->decode($encoded));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $base32->decode($encoded4));
@@ -147,17 +152,22 @@ class Base32Test extends TestCase
     public function testShouldEncodeAndDecodeIntegers($configuration)
     {
         $data = 987654321;
+
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base32 = new Base32($configuration);
+
         $encoded = $php->encodeInteger($data);
         $encoded2 = $gmp->encodeInteger($data);
         $encoded4 = $base32->encodeInteger($data);
+
         Base32Proxy::$options = $configuration;
         $encoded5 = Base32Proxy::encodeInteger($data);
+
         $this->assertEquals($encoded2, $encoded);
         $this->assertEquals($encoded4, $encoded);
         $this->assertEquals($encoded5, $encoded);
+
         $this->assertEquals($data, $php->decodeInteger($encoded));
         $this->assertEquals($data, $gmp->decodeInteger($encoded2));
         $this->assertEquals($data, $base32->decodeInteger($encoded4));
@@ -180,38 +190,30 @@ class Base32Test extends TestCase
         $php = new PhpEncoder();
         $gmp = new GmpEncoder();
         $base32 = new Base32();
+
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
+
         // Base32Proxy::$options = [
         //     "characters" => $configuration,
         // ];
         $encoded5 = Base32Proxy::encode($data);
+
         $this->assertEquals($encoded, "JBSWY3DPEB3W64TMMQQQ====");
         $this->assertEquals($encoded2, "JBSWY3DPEB3W64TMMQQQ====");
         $this->assertEquals($encoded4, "JBSWY3DPEB3W64TMMQQQ====");
         $this->assertEquals($encoded5, "JBSWY3DPEB3W64TMMQQQ====");
-        $data = hex2bin("0000010203040506");
-        $encoded = $php->encode($data);
-        $encoded2 = $gmp->encode($data);
-        $encoded4 = $base32->encode($data);
-        // Base32Proxy::$options = [
-        //     "characters" => $configuration,
-        // ];
-        $encoded5 = Base32Proxy::encode($data);
-        $this->assertEquals($encoded, "AAAACAQDAQCQM===");
-        $this->assertEquals($encoded2, "AAAACAQDAQCQM===");
-        $this->assertEquals($encoded4, "AAAACAQDAQCQM===");
-        $this->assertEquals($encoded5, "AAAACAQDAQCQM===");
 
         $data = hex2bin("0000010203040506");
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
         // Base32Proxy::$options = [
-        //     "characters" => $characters,
+        //     "characters" => $configuration,
         // ];
         $encoded5 = Base32Proxy::encode($data);
+
         $this->assertEquals($encoded, "AAAACAQDAQCQM===");
         $this->assertEquals($encoded2, "AAAACAQDAQCQM===");
         $this->assertEquals($encoded4, "AAAACAQDAQCQM===");
@@ -224,17 +226,22 @@ class Base32Test extends TestCase
     public function testShouldEncodeAndDecodeBigIntegers($configuration)
     {
         $data = PHP_INT_MAX;
+
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base32 = new Base32($configuration);
+
         $encoded = $php->encodeInteger($data);
         $encoded2 = $gmp->encodeInteger($data);
         $encoded4 = $base32->encodeInteger($data);
+
         Base32Proxy::$options = $configuration;
         $encoded5 = Base32Proxy::encodeInteger($data);
+
         $this->assertEquals($encoded2, $encoded);
         $this->assertEquals($encoded4, $encoded);
         $this->assertEquals($encoded5, $encoded);
+
         $this->assertEquals($data, $php->decodeInteger($encoded));
         $this->assertEquals($data, $gmp->decodeInteger($encoded2));
         $this->assertEquals($data, $base32->decodeInteger($encoded4));
@@ -247,17 +254,22 @@ class Base32Test extends TestCase
     public function testShouldEncodeAndDecodeSingleZeroByte($configuration)
     {
         $data = "\x00";
+
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base32 = new Base32($configuration);
+
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
+
         Base32Proxy::$options = $configuration;
         $encoded5 = Base32Proxy::encode($data);
+
         $this->assertEquals($encoded2, $encoded);
         $this->assertEquals($encoded4, $encoded);
         $this->assertEquals($encoded5, $encoded);
+
         $this->assertEquals($data, $php->decode($encoded));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $base32->decode($encoded4));
@@ -270,17 +282,22 @@ class Base32Test extends TestCase
     public function testShouldEncodeAndDecodeMultipleZeroBytes($configuration)
     {
         $data = "\x00\x00\x00";
+
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base32 = new Base32($configuration);
+
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
+
         Base32Proxy::$options = $configuration;
         $encoded5 = Base32Proxy::encode($data);
+
         $this->assertEquals($encoded2, $encoded);
         $this->assertEquals($encoded4, $encoded);
         $this->assertEquals($encoded5, $encoded);
+
         $this->assertEquals($data, $php->decode($encoded));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $base32->decode($encoded4));
@@ -293,17 +310,22 @@ class Base32Test extends TestCase
     public function testShouldEncodeAndDecodeSingleZeroBytePrefix($configuration)
     {
         $data = "\x00\x01\x02";
+
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base32 = new Base32($configuration);
+
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
+
         Base32Proxy::$options = $configuration;
         $encoded5 = Base32Proxy::encode($data);
+
         $this->assertEquals($encoded2, $encoded);
         $this->assertEquals($encoded4, $encoded);
         $this->assertEquals($encoded5, $encoded);
+
         $this->assertEquals($data, $php->decode($encoded));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $base32->decode($encoded4));
@@ -316,17 +338,22 @@ class Base32Test extends TestCase
     public function testShouldEncodeAndDecodeMultipleZeroBytePrefix($configuration)
     {
         $data = "\x00\x00\x00\x01\x02";
+
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
         $base32 = new Base32($configuration);
+
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
+
         Base32Proxy::$options = $configuration;
         $encoded5 = Base32Proxy::encode($data);
+
         $this->assertEquals($encoded2, $encoded);
         $this->assertEquals($encoded4, $encoded);
         $this->assertEquals($encoded5, $encoded);
+
         $this->assertEquals($data, $php->decode($encoded));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $base32->decode($encoded4));
