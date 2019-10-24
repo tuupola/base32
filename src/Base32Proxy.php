@@ -42,9 +42,9 @@ class Base32Proxy
     /**
      * Encode given data to a base32 string
      */
-    public static function encode($data)
+    public static function encode($data, $integer = false)
     {
-        return (new Base32(self::$options))->encode($data);
+        return (new Base32(self::$options))->encode($data, $integer);
     }
 
     /**
