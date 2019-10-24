@@ -39,11 +39,17 @@ class Base32Proxy
         "characters" => Base32::RFC4648,
     ];
 
+    /**
+     * Encode given data to a base32 string
+     */
     public static function encode($data)
     {
         return (new Base32(self::$options))->encode($data);
     }
 
+    /**
+     * Decode given a base32 string back to data
+     */
     public static function decode($data, $integer = false)
     {
         return (new Base32(self::$options))->decode($data, $integer);

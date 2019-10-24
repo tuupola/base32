@@ -51,11 +51,17 @@ class Base32
         $this->encoder = new Base32\PhpEncoder($this->options);
     }
 
+    /**
+     * Encode given data to a base32 string
+     */
     public function encode($data)
     {
         return $this->encoder->encode($data);
     }
 
+    /**
+     * Decode given a base32 string back to data
+     */
     public function decode($data, $integer = false)
     {
         return $this->encoder->decode($data, $integer);

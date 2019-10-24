@@ -52,6 +52,9 @@ class PhpEncoder
         }
     }
 
+    /**
+     * Encode given data to a base32 string
+     */
     public function encode($data)
     {
         if (empty($data)) {
@@ -94,6 +97,9 @@ class PhpEncoder
         return $encoded;
     }
 
+    /**
+     * Decode given a base32 string back to data
+     */
     public function decode($data, $integer = false)
     {
         if (empty($data)) {
