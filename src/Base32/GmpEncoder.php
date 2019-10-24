@@ -23,6 +23,7 @@ class GmpEncoder
     private $options = [
         "characters" => Base32::RFC4648,
         "padding" => "=",
+        "crockford" => false,
     ];
 
     public function __construct($options = [])
@@ -79,6 +80,11 @@ class GmpEncoder
     {
         if (empty($data)) {
             return "";
+        }
+
+        if (true === $this->options["crockford"]) {
+            $data = strtoupper($data);
+            $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
         /* If the data contains characters that aren't in the character set. */

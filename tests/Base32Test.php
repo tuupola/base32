@@ -395,6 +395,30 @@ class Base32Test extends TestCase
         }
     }
 
+    public function testShouldHandleCrockford()
+    {
+        $encoded1 = "91JPRV3F41VPYWKCCGGJ0Y3R";
+        $encoded2 = "91jprv3f41vpywkccggj0y3r";
+        $encoded3 = "9ljp-rv3f4-1vpyw-kccgg-joy3r";
+
+        $data = "Hello world! xx";
+        $configuration = [
+            "characters" => Base32::CROCKFORD,
+            "padding" => false,
+            "crockford" => true,
+        ];
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+
+        $this->assertEquals($data, $php->decode($encoded1));
+        $this->assertEquals($data, $php->decode($encoded2));
+        $this->assertEquals($data, $php->decode($encoded3));
+
+        $this->assertEquals($data, $gmp->decode($encoded1));
+        $this->assertEquals($data, $gmp->decode($encoded2));
+        $this->assertEquals($data, $gmp->decode($encoded3));
+    }
+
     public function configurationProvider()
     {
         return [
@@ -409,6 +433,11 @@ class Base32Test extends TestCase
             "GMP mode" => [[
                 "characters" => Base32::GMP,
                 "padding" => false,
+            ]],
+            "Crockford mode" => [[
+                "characters" => Base32::CROCKFORD,
+                "padding" => false,
+                "crocford" => true,
             ]],
             "Custom character set" => [[
                 "characters" => "ABCDEFGHIJKLMNOPQRSTUV0123456789",

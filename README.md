@@ -79,8 +79,22 @@ $gmp = new Base32([
 print $gmp->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG */
 ```
 
-### Crockford's Base32 [WIP]
-http://www.crockford.com/wrmg/base32.html
+### Crockford's Base32
+
+When decoding, upper and lower case letters are accepted, and i and l will be treated as 1 and o will be treated as 0. When encoding, only upper case letters are used. Hyphens are ignored during decoding.
+
+```php
+$crockford = new Base32([
+    "characters" => Base32::CROCKFORD,
+    "padding" => false,
+    "crocford" => true,
+]);
+
+print $crockford->encode("Hello world!"); /* 91JPRV3F41VPYWKCCGGG */
+print $crockford->decode("91JPRV3F41VPYWKCCGGG"); /* Hello world! */
+print $crockford->decode("91jprv3f41vpywkccggg"); /* Hello world! */
+print $crockford->decode("9ljprv3f4lvpywkccggg"); /* Hello world! */
+```
 
 ### Z-base-32 [WIP]
 http://philzimmermann.com/docs/human-oriented-base-32-encoding.txt
