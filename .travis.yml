@@ -9,11 +9,13 @@ php:
     - 7.2
     - 7.3
     - 7.4
+    - nightly
     - hhvm
 
 matrix:
     allow_failures:
         - php: hhvm
+        - php: nightly
 
 before_script:
     - travis_retry composer self-update
