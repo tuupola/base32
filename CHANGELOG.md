@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+
+## [1.0.0](https://github.com/tuupola/base32/compare/0.3.0...1.0.0) - 2020-02-05
+
+This is same as previous but released as stable.
+
 ## [0.3.0](https://github.com/tuupola/base32/compare/0.2.0...0.3.0) - 2019-10-24
 
 ### Added
