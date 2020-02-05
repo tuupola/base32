@@ -194,10 +194,6 @@ class Base32Test extends TestCase
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
-
-        // Base32Proxy::$options = [
-        //     "characters" => $configuration,
-        // ];
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded, "JBSWY3DPEB3W64TMMQQQ====");
@@ -209,9 +205,6 @@ class Base32Test extends TestCase
         $encoded = $php->encode($data);
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
-        // Base32Proxy::$options = [
-        //     "characters" => $configuration,
-        // ];
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded, "AAAACAQDAQCQM===");
