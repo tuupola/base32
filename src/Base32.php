@@ -42,7 +42,7 @@ class Base32
     private $encoder;
     private $options = [];
 
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
         if (function_exists("gmp_init")) {
@@ -54,7 +54,7 @@ class Base32
     /**
      * Encode given data to a base32 string
      */
-    public function encode($data, $integer = false): string
+    public function encode(string $data, bool $integer = false): string
     {
         return $this->encoder->encode($data, $integer);
     }
@@ -62,7 +62,7 @@ class Base32
     /**
      * Decode given a base32 string back to data
      */
-    public function decode($data, $integer = false): string
+    public function decode(string $data, bool $integer = false): string
     {
         return $this->encoder->decode($data, $integer);
     }
@@ -70,7 +70,7 @@ class Base32
     /**
      * Encode given integer to a base32 string
      */
-    public function encodeInteger($data): int
+    public function encodeInteger(int $data): string
     {
         return $this->encoder->encodeInteger($data);
     }
@@ -78,7 +78,7 @@ class Base32
     /**
      * Decode given base32 string back to an integer
      */
-    public function decodeInteger($data): int
+    public function decodeInteger(string $data): int
     {
         return $this->encoder->decodeInteger($data);
     }

@@ -151,7 +151,7 @@ class GmpEncoder
     /**
      * Encode given integer to a base32 string
      */
-    public function encodeInteger($data): string
+    public function encodeInteger(int $data): string
     {
         return $this->encode($data, true);
     }
@@ -159,7 +159,7 @@ class GmpEncoder
     /**
      * Decode given base32 string back to an integer
      */
-    public function decodeInteger($data): int
+    public function decodeInteger(string $data): int
     {
         return $this->decode($data, true);
     }

@@ -66,7 +66,7 @@ class Base32Test extends TestCase
         $this->assertEquals("MZXW6YTB", $encoded);
         $encoded = (new PhpEncoder)->encode("foobar");
         $this->assertEquals("MZXW6YTBOI======", $encoded);
-        $encoded = (new PhpEncoder)->encode(null);
+        $encoded = (new PhpEncoder)->encode("");
         $this->assertEquals("", $encoded);
 
         $encoded = (new GmpEncoder)->encode("f");
@@ -81,7 +81,7 @@ class Base32Test extends TestCase
         $this->assertEquals("MZXW6YTB", $encoded);
         $encoded = (new GmpEncoder)->encode("foobar");
         $this->assertEquals("MZXW6YTBOI======", $encoded);
-        $encoded = (new GmpEncoder)->encode(null);
+        $encoded = (new GmpEncoder)->encode("");
         $this->assertEquals("", $encoded);
     }
 
@@ -99,7 +99,7 @@ class Base32Test extends TestCase
         $this->assertEquals("fooba", $decoded);
         $decoded = (new PhpEncoder)->decode("MZXW6YTBOI======");
         $this->assertEquals("foobar", $decoded);
-        $decoded = (new PhpEncoder)->decode(null);
+        $decoded = (new PhpEncoder)->decode("");
         $this->assertEquals("", $decoded);
 
         $decoded = (string) (new GmpEncoder)->decode("MY======");
@@ -114,7 +114,7 @@ class Base32Test extends TestCase
         $this->assertEquals("fooba", $decoded);
         $decoded = (new GmpEncoder)->decode("MZXW6YTBOI======");
         $this->assertEquals("foobar", $decoded);
-        $decoded = (new GmpEncoder)->decode(null);
+        $decoded = (new GmpEncoder)->decode("");
         $this->assertEquals("", $decoded);
     }
 

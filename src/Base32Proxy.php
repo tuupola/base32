@@ -42,7 +42,7 @@ class Base32Proxy
     /**
      * Encode given data to a base32 string
      */
-    public static function encode($data, $integer = false): string
+    public static function encode(string $data, bool $integer = false): string
     {
         return (new Base32(self::$options))->encode($data, $integer);
     }
@@ -50,7 +50,7 @@ class Base32Proxy
     /**
      * Decode given a base32 string back to data
      */
-    public static function decode($data, $integer = false): string
+    public static function decode(string $data, bool $integer = false): string
     {
         return (new Base32(self::$options))->decode($data, $integer);
     }
@@ -58,7 +58,7 @@ class Base32Proxy
     /**
      * Encode given integer to a base32 string
      */
-    public static function encodeInteger($data): string
+    public static function encodeInteger(int $data): string
     {
         return (new Base32(self::$options))->encodeInteger($data);
     }
@@ -66,7 +66,7 @@ class Base32Proxy
     /**
      * Decode given base32 string back to an integer
      */
-    public static function decodeInteger($data): int
+    public static function decodeInteger(string $data): int
     {
         return (new Base32(self::$options))->decodeInteger($data);
     }
