@@ -55,7 +55,7 @@ class PhpEncoder
     /**
      * Encode given data to a base32 string
      */
-    public function encode($data, $integer = false)
+    public function encode($data, $integer = false): string
     {
         if (empty($data)) {
             return "";
@@ -100,7 +100,7 @@ class PhpEncoder
     /**
      * Decode given a base32 string back to data
      */
-    public function decode($data, $integer = false)
+    public function decode($data, $integer = false): string
     {
         if (empty($data)) {
             return "";
@@ -152,7 +152,7 @@ class PhpEncoder
     /**
      * Encode given integer to a base32 string
      */
-    public function encodeInteger($data)
+    public function encodeInteger($data): string
     {
         return $this->encode($data, true);
     }
@@ -160,7 +160,7 @@ class PhpEncoder
     /**
      * Decode given base32 string back to an integer
      */
-    public function decodeInteger($data)
+    public function decodeInteger($data): int
     {
         return $this->decode($data, true);
     }
