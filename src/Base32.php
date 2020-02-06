@@ -39,9 +39,19 @@ class Base32
     const GMP = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
     const HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
 
+    /**
+      * @var Base32\GmpEncoder|Base32\PhpEncoder
+      */
     private $encoder;
+
+    /**
+      * @var string[]|bool[]
+      */
     private $options = [];
 
+    /**
+      * @param string[]|bool[] $options
+      */
     public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);

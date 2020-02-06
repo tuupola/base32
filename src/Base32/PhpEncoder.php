@@ -36,12 +36,18 @@ use Tuupola\Base32;
 
 class PhpEncoder
 {
+    /**
+      * @var string[]|bool[]
+      */
     private $options = [
         "characters" => Base32::RFC4648,
         "padding" => "=",
         "crockford" => false,
     ];
 
+    /**
+      * @param string[]|bool[] $options
+      */
     public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);

@@ -35,6 +35,9 @@ use Tuupola\Base32;
 
 class Base32Proxy
 {
+    /**
+      * @var string[]|bool[]
+      */
     public static $options = [
         "characters" => Base32::RFC4648,
     ];
