@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## [2.0.0](https://github.com/tuupola/base32/compare/1.0.0...master) - unreleased
+
+### Changed
+- PHP 7.1 is now minimum requirement ([#11](https://github.com/tuupola/base32/pull/11)).
+- All methods are typehinted and have return types ([#13](https://github.com/tuupola/base32/pull/13)).
+- String and integer methods are now separated ([#14](https://github.com/tuupola/base32/pull/14)).
+
 
 ## [1.0.0](https://github.com/tuupola/base32/compare/0.3.0...1.0.0) - 2020-02-05
 
