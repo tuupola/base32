@@ -47,17 +47,17 @@ class Base32Proxy
     /**
      * Encode given data to a base32 string
      */
-    public static function encode(string $data, bool $integer = false): string
+    public static function encode(string $data): string
     {
-        return (new Base32(self::$options))->encode($data, $integer);
+        return (new Base32(self::$options))->encode($data);
     }
 
     /**
      * Decode given a base32 string back to data
      */
-    public static function decode(string $data, bool $integer = false): string
+    public static function decode(string $data): string
     {
-        return (new Base32(self::$options))->decode($data, $integer);
+        return (new Base32(self::$options))->decode($data);
     }
 
     /**
