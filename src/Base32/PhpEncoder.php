@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
 
 Copyright (c) 2017-2020 Mika Tuupola
@@ -36,13 +38,19 @@ use Tuupola\Base32;
 
 class PhpEncoder
 {
+    /**
+      * @var string[]|bool[]
+      */
     private $options = [
         "characters" => Base32::RFC4648,
         "padding" => "=",
         "crockford" => false,
     ];
 
-    public function __construct($options = [])
+    /**
+      * @param string[]|bool[] $options
+      */
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
 
@@ -55,7 +63,7 @@ class PhpEncoder
     /**
      * Encode given data to a base32 string
      */
-    public function encode($data, $integer = false)
+    public function encode(string $data, bool $integer = false): string
     {
         if (empty($data)) {
             return "";
@@ -100,7 +108,7 @@ class PhpEncoder
     /**
      * Decode given a base32 string back to data
      */
-    public function decode($data, $integer = false)
+    public function decode(string $data, bool $integer = false): string
     {
         if (empty($data)) {
             return "";
@@ -152,7 +160,7 @@ class PhpEncoder
     /**
      * Encode given integer to a base32 string
      */
-    public function encodeInteger($data)
+    public function encodeInteger(int $data): string
     {
         return $this->encode($data, true);
     }
@@ -160,7 +168,7 @@ class PhpEncoder
     /**
      * Decode given base32 string back to an integer
      */
-    public function decodeInteger($data)
+    public function decodeInteger(string $data): int
     {
         return $this->decode($data, true);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
 
 Copyright (c) 2017-2020 Mika Tuupola
@@ -39,10 +41,20 @@ class Base32
     const GMP = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
     const HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
 
+    /**
+      * @var Base32\GmpEncoder|Base32\PhpEncoder
+      */
     private $encoder;
+
+    /**
+      * @var string[]|bool[]
+      */
     private $options = [];
 
-    public function __construct($options = [])
+    /**
+      * @param string[]|bool[] $options
+      */
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
         if (function_exists("gmp_init")) {
@@ -54,7 +66,7 @@ class Base32
     /**
      * Encode given data to a base32 string
      */
-    public function encode($data, $integer = false)
+    public function encode(string $data, bool $integer = false): string
     {
         return $this->encoder->encode($data, $integer);
     }
@@ -62,7 +74,7 @@ class Base32
     /**
      * Decode given a base32 string back to data
      */
-    public function decode($data, $integer = false)
+    public function decode(string $data, bool $integer = false): string
     {
         return $this->encoder->decode($data, $integer);
     }
@@ -70,7 +82,7 @@ class Base32
     /**
      * Encode given integer to a base32 string
      */
-    public function encodeInteger($data)
+    public function encodeInteger(int $data): string
     {
         return $this->encoder->encodeInteger($data);
     }
@@ -78,7 +90,7 @@ class Base32
     /**
      * Decode given base32 string back to an integer
      */
-    public function decodeInteger($data)
+    public function decodeInteger(string $data): int
     {
         return $this->encoder->decodeInteger($data);
     }

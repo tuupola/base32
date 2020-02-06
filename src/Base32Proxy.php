@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
 
 Copyright (c) 2017-2020 Mika Tuupola
@@ -35,6 +37,9 @@ use Tuupola\Base32;
 
 class Base32Proxy
 {
+    /**
+      * @var string[]|bool[]
+      */
     public static $options = [
         "characters" => Base32::RFC4648,
     ];
@@ -42,7 +47,7 @@ class Base32Proxy
     /**
      * Encode given data to a base32 string
      */
-    public static function encode($data, $integer = false)
+    public static function encode(string $data, bool $integer = false): string
     {
         return (new Base32(self::$options))->encode($data, $integer);
     }
@@ -50,7 +55,7 @@ class Base32Proxy
     /**
      * Decode given a base32 string back to data
      */
-    public static function decode($data, $integer = false)
+    public static function decode(string $data, bool $integer = false): string
     {
         return (new Base32(self::$options))->decode($data, $integer);
     }
@@ -58,7 +63,7 @@ class Base32Proxy
     /**
      * Encode given integer to a base32 string
      */
-    public static function encodeInteger($data)
+    public static function encodeInteger(int $data): string
     {
         return (new Base32(self::$options))->encodeInteger($data);
     }
@@ -66,7 +71,7 @@ class Base32Proxy
     /**
      * Decode given base32 string back to an integer
      */
-    public static function decodeInteger($data)
+    public static function decodeInteger(string $data): int
     {
         return (new Base32(self::$options))->decodeInteger($data);
     }
