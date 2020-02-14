@@ -40,7 +40,6 @@ use PHPUnit\Framework\TestCase;
 
 class Base32Test extends TestCase
 {
-
     protected function tearDown()
     {
         Base32Proxy::$options = [
@@ -366,82 +365,58 @@ class Base32Test extends TestCase
         $encoder->decodeInteger($invalid);
     }
 
-    public function testShouldThrowExceptionOnDecodeInvalidData()
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionOnDecodeInvalidData($encoder)
     {
         $invalid = "invalid~data-%@#!@*#-foo";
-        $decoders = [
-            new PhpEncoder(),
-            new GmpEncoder(),
-            new Base32(),
-        ];
-        foreach ($decoders as $decoder) {
-            $caught = null;
-            try {
-                $decoder->decode($invalid, false);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Data contains invalid characters");
+        $encoder->decode($invalid);
     }
 
-    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet()
+    /**
+     * @dataProvider classProvider
+     */
+    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($class)
     {
-        /* This would normally be valid, however the custom character set */
-        /* is missing the J character. */
         $invalid = "JBSWY3DPEB3W64TMMQQQ====";
         $options = [
             "characters" => "0123456789ABCDEFGHIXKLMNOPQRSTUV"
         ];
-        $decoders = [
-            new PhpEncoder($options),
-            new GmpEncoder($options),
-            new Base32($options),
-        ];
-        foreach ($decoders as $decoder) {
-            $caught = null;
-            try {
-                $decoder->decode($invalid, false);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Data contains invalid characters");
+        $decoder = new $class($options);
+        $decoder->decode($invalid);
     }
 
-    public function testShouldThrowExceptionWithInvalidCharacterSet()
+    /**
+     * @dataProvider classProvider
+     */
+    public function testShouldThrowExceptionWithTooSmallCharacterSet($class)
     {
         /* Only 31 characters. */
         $options = [
             "characters" => "123456789ABCDEFGHIJKLMNOPQRSTUV"
         ];
-        $decoders = [
-            PhpEncoder::class,
-            GmpEncoder::class,
-            Base32::class,
-        ];
-        foreach ($decoders as $decoder) {
-            $caught = null;
-            try {
-                new $decoder($options);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Character set must 32 unique characters");
+        $decoder = new $class($options);
+    }
+
+    /**
+     * @dataProvider classProvider
+     */
+    public function testShouldThrowExceptionWitDuplicateCharactersInSet($class)
+    {
         /* Duplicate characters. */
         $options = [
             "characters" => "00123456789ABCDEFGHIJKLMNOPQRSTUV"
         ];
-        foreach ($decoders as $decoder) {
-            $caught = null;
-            try {
-                new $decoder($options);
-            } catch (InvalidArgumentException $exception) {
-                $caught = $exception;
-            }
-            $this->assertInstanceOf(InvalidArgumentException::class, $caught);
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Character set must 32 unique characters");
+        $decoder = new $class($options);
     }
 
     public function testShouldHandleCrockford()
@@ -501,6 +476,15 @@ class Base32Test extends TestCase
             PhpEncoder::class => [new PhpEncoder()],
             GmpEncoder::class => [new GmpEncoder()],
             Base32::class => [new Base32()],
+        ];
+    }
+
+    public function classProvider()
+    {
+        return [
+            PhpEncoder::class => [PhpEncoder::class],
+            GmpEncoder::class => [GmpEncoder::class],
+            Base32::class => [Base32::class],
         ];
     }
 }
