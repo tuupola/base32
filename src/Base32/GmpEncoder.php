@@ -39,7 +39,7 @@ use Tuupola\Base32;
 class GmpEncoder
 {
     /**
-      * @var string[]|bool[]
+      * @var array<string, bool|string>
       */
     private $options = [
         "characters" => Base32::RFC4648,
@@ -48,14 +48,14 @@ class GmpEncoder
     ];
 
     /**
-      * @param string[]|bool[] $options
+      * @param array<string, bool|string> $options
       */
     public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, (array) $options);
 
-        $uniques = count_chars($this->options["characters"], 3);
-        if (32 !== strlen($uniques) || 32 !== strlen($this->options["characters"])) {
+        $uniques = count_chars($this->characters(), 3);
+        if (32 !== strlen($uniques) || 32 !== strlen($this->characters())) {
             throw new InvalidArgumentException("Character set must 32 unique characters");
         }
     }
@@ -76,19 +76,21 @@ class GmpEncoder
         /* Split to five bit chunks and make sure last chunk has five bits. */
         $binary = str_split($binary, 5);
         $last = array_pop($binary);
-        $binary[] = str_pad($last, 5, "0", STR_PAD_RIGHT);
+        if (null !== $last) {
+            $binary[] = str_pad($last, 5, "0", STR_PAD_RIGHT);
+        }
 
         /* Convert each five bits to a Base32 character. */
         $encoded = implode("", array_map(function ($fivebits) {
             $index = bindec($fivebits);
-            return $this->options["characters"][$index];
+            return $this->characters()[$index];
         }, $binary));
 
         /* Pad to eight characters when requested. */
-        if (!empty($this->options["padding"])) {
+        if (!empty($this->padding())) {
             if ($modulus = strlen($encoded) % 8) {
                 $padding = 8 - $modulus;
-                $encoded .= str_repeat($this->options["padding"], $padding);
+                $encoded .= str_repeat($this->padding(), $padding);
             }
         }
 
@@ -104,15 +106,15 @@ class GmpEncoder
             return "";
         }
 
-        if (true === $this->options["crockford"]) {
+        if ($this->isCrockford()) {
             $data = strtoupper($data);
             $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
         /* If the data contains characters that aren't in the character set. */
-        $characters = $this->options["characters"] . (string) $this->options["padding"];
+        $characters = $this->characters() . (string) $this->padding();
         if (strlen($data) !== strspn($data, $characters)) {
-            $valid = str_split($this->options["characters"]);
+            $valid = str_split($this->characters());
             $invalid = str_replace($valid, "", $data);
             $invalid = count_chars($invalid, 3);
             throw new InvalidArgumentException(
@@ -122,8 +124,8 @@ class GmpEncoder
 
         $data = str_split($data);
         $data = array_map(function ($character) {
-            if ($character !== $this->options["padding"]) {
-                $index = strpos($this->options["characters"], $character);
+            if ($character !== $this->padding()) {
+                $index = strpos($this->characters(), $character);
                 return sprintf("%05b", $index);
             }
         }, $data);
@@ -134,7 +136,7 @@ class GmpEncoder
 
         /* Make sure binary is divisible by eight by ignoring the incomplete byte. */
         $last = array_pop($data);
-        if (8 === strlen($last)) {
+        if ((null !== $last) && (8 === strlen($last))) {
             $data[] = $last;
         }
 
@@ -159,19 +161,21 @@ class GmpEncoder
         /* Split to five bit chunks and make sure last chunk has five bits. */
         $binary = str_split($binary, 5);
         $last = array_pop($binary);
-        $binary[] = str_pad($last, 5, "0", STR_PAD_RIGHT);
+        if (null !== $last) {
+            $binary[] = str_pad($last, 5, "0", STR_PAD_RIGHT);
+        }
 
         /* Convert each five bits to a Base32 character. */
         $encoded = implode("", array_map(function ($fivebits) {
             $index = bindec($fivebits);
-            return $this->options["characters"][$index];
+            return $this->characters()[$index];
         }, $binary));
 
         /* Pad to eight characters when requested. */
-        if (!empty($this->options["padding"])) {
+        if (!empty($this->padding())) {
             if ($modulus = strlen($encoded) % 8) {
                 $padding = 8 - $modulus;
-                $encoded .= str_repeat($this->options["padding"], $padding);
+                $encoded .= str_repeat($this->padding(), $padding);
             }
         }
 
@@ -183,19 +187,15 @@ class GmpEncoder
      */
     public function decodeInteger(string $data): int
     {
-        if (empty($data)) {
-            return "";
-        }
-
-        if (true === $this->options["crockford"]) {
+        if ($this->isCrockford()) {
             $data = strtoupper($data);
             $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
         /* If the data contains characters that aren't in the character set. */
-        $characters = $this->options["characters"] . (string) $this->options["padding"];
+        $characters = $this->characters() . $this->padding();
         if (strlen($data) !== strspn($data, $characters)) {
-            $valid = str_split($this->options["characters"]);
+            $valid = str_split($this->characters());
             $invalid = str_replace($valid, "", $data);
             $invalid = count_chars($invalid, 3);
             throw new InvalidArgumentException(
@@ -205,13 +205,28 @@ class GmpEncoder
 
         $data = str_split($data);
         $data = array_map(function ($character) {
-            if ($character !== $this->options["padding"]) {
-                $index = strpos($this->options["characters"], $character);
+            if ($character !== $this->padding()) {
+                $index = strpos($this->characters(), $character);
                 return sprintf("%05b", $index);
             }
         }, $data);
         $binary = implode("", $data);
 
         return bindec($binary);
+    }
+
+    private function characters(): string
+    {
+        return (string) $this->options["characters"];
+    }
+
+    private function padding(): string
+    {
+        return (string) $this->options["padding"];
+    }
+
+    private function isCrockford(): bool
+    {
+        return true === $this->options["crockford"];
     }
 }

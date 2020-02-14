@@ -47,12 +47,12 @@ class Base32
     private $encoder;
 
     /**
-      * @var string[]|bool[]
+      * @var array<string, bool|string>
       */
     private $options = [];
 
     /**
-      * @param string[]|bool[] $options
+      * @param array<string, bool|string> $options
       */
     public function __construct(array $options = [])
     {
