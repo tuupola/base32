@@ -187,6 +187,12 @@ class GmpEncoder
      */
     public function decodeInteger(string $data): int
     {
+        if (empty($data)) {
+            throw new InvalidArgumentException(
+                "Cannot decode empty string as integer"
+            );
+        }
+
         if ($this->isCrockford()) {
             $data = strtoupper($data);
             $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
