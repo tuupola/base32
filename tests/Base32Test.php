@@ -355,6 +355,17 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldThrowExceptionOnDecodeEmptyString($encoder)
+    {
+        $invalid = "";
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Cannot decode empty string as integer");
+        $encoder->decodeInteger($invalid);
+    }
+
     public function testShouldThrowExceptionOnDecodeInvalidData()
     {
         $invalid = "invalid~data-%@#!@*#-foo";
@@ -481,6 +492,15 @@ class Base32Test extends TestCase
                 "characters" => "ABCDEFGHIJKLMNOPQRSTUV0123456789",
                 "padding" => false,
             ]],
+        ];
+    }
+
+    public function encoderProvider()
+    {
+        return [
+            PhpEncoder::class => [new PhpEncoder()],
+            GmpEncoder::class => [new GmpEncoder()],
+            Base32::class => [new Base32()],
         ];
     }
 }
