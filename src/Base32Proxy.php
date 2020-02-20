@@ -38,11 +38,9 @@ use Tuupola\Base32;
 class Base32Proxy
 {
     /**
-      * @var array<string, bool|string>
+      * @var array<string, bool|string> $options
       */
-    public static $options = [
-        "characters" => Base32::RFC4648,
-    ];
+    public static $options = [];
 
     /**
      * Encode given data to a base32 string

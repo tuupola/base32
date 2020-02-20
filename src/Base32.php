@@ -47,7 +47,7 @@ class Base32
     private $encoder;
 
     /**
-      * @var array<string, bool|string>
+      * @var array<string, bool|string> $options
       */
     private $options = [];
 
