@@ -36,30 +36,8 @@ namespace Tuupola\Base32;
 use InvalidArgumentException;
 use Tuupola\Base32;
 
-class GmpEncoder
+class GmpEncoder extends BaseEncoder
 {
-    /**
-      * @var array<string, bool|string>
-      */
-    private $options = [
-        "characters" => Base32::RFC4648,
-        "padding" => "=",
-        "crockford" => false,
-    ];
-
-    /**
-      * @param array<string, bool|string> $options
-      */
-    public function __construct(array $options = [])
-    {
-        $this->options = array_merge($this->options, (array) $options);
-
-        $uniques = count_chars($this->characters(), 3);
-        if (32 !== strlen($uniques) || 32 !== strlen($this->characters())) {
-            throw new InvalidArgumentException("Character set must 32 unique characters");
-        }
-    }
-
     /**
      * Encode given data to a base32 string
      */
@@ -111,16 +89,7 @@ class GmpEncoder
             $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
-        /* If the data contains characters that aren't in the character set. */
-        $characters = $this->characters() . (string) $this->padding();
-        if (strlen($data) !== strspn($data, $characters)) {
-            $valid = str_split($this->characters());
-            $invalid = str_replace($valid, "", $data);
-            $invalid = count_chars($invalid, 3);
-            throw new InvalidArgumentException(
-                "Data contains invalid characters \"{$invalid}\""
-            );
-        }
+        $this->validateInput($data);
 
         $data = str_split($data);
         $data = array_map(function ($character) {
@@ -198,16 +167,7 @@ class GmpEncoder
             $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
-        /* If the data contains characters that aren't in the character set. */
-        $characters = $this->characters() . $this->padding();
-        if (strlen($data) !== strspn($data, $characters)) {
-            $valid = str_split($this->characters());
-            $invalid = str_replace($valid, "", $data);
-            $invalid = count_chars($invalid, 3);
-            throw new InvalidArgumentException(
-                "Data contains invalid characters \"{$invalid}\""
-            );
-        }
+        $this->validateInput($data);
 
         $data = str_split($data);
         $data = array_map(function ($character) {
@@ -219,20 +179,5 @@ class GmpEncoder
         $binary = implode("", $data);
 
         return bindec($binary);
-    }
-
-    private function characters(): string
-    {
-        return (string) $this->options["characters"];
-    }
-
-    private function padding(): string
-    {
-        return (string) $this->options["padding"];
-    }
-
-    private function isCrockford(): bool
-    {
-        return true === $this->options["crockford"];
     }
 }
