@@ -36,30 +36,8 @@ namespace Tuupola\Base32;
 use InvalidArgumentException;
 use Tuupola\Base32;
 
-class GmpEncoder
+class GmpEncoder extends BaseEncoder
 {
-    /**
-      * @var array<string, bool|string>
-      */
-    private $options = [
-        "characters" => Base32::RFC4648,
-        "padding" => "=",
-        "crockford" => false,
-    ];
-
-    /**
-      * @param array<string, bool|string> $options
-      */
-    public function __construct(array $options = [])
-    {
-        $this->options = array_merge($this->options, (array) $options);
-
-        $uniques = count_chars($this->characters(), 3);
-        if (32 !== strlen($uniques) || 32 !== strlen($this->characters())) {
-            throw new InvalidArgumentException("Character set must 32 unique characters");
-        }
-    }
-
     /**
      * Encode given data to a base32 string
      */
@@ -219,20 +197,5 @@ class GmpEncoder
         $binary = implode("", $data);
 
         return bindec($binary);
-    }
-
-    private function characters(): string
-    {
-        return (string) $this->options["characters"];
-    }
-
-    private function padding(): string
-    {
-        return (string) $this->options["padding"];
-    }
-
-    private function isCrockford(): bool
-    {
-        return true === $this->options["crockford"];
     }
 }
