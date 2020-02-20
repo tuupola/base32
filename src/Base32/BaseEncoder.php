@@ -60,6 +60,19 @@ abstract class BaseEncoder
         }
     }
 
+    protected function validateInput(string $data): void
+    {
+        $characters = $this->characters() . $this->padding();
+        if (strlen($data) !== strspn($data, $characters)) {
+            $valid = str_split($this->characters());
+            $invalid = str_replace($valid, "", $data);
+            $invalid = count_chars($invalid, 3);
+            throw new InvalidArgumentException(
+                "Data contains invalid characters \"{$invalid}\""
+            );
+        }
+    }
+
     /**
      * Return the value of the characters setting
      */

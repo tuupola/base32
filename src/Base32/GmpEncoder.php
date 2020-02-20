@@ -89,16 +89,7 @@ class GmpEncoder extends BaseEncoder
             $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
-        /* If the data contains characters that aren't in the character set. */
-        $characters = $this->characters() . (string) $this->padding();
-        if (strlen($data) !== strspn($data, $characters)) {
-            $valid = str_split($this->characters());
-            $invalid = str_replace($valid, "", $data);
-            $invalid = count_chars($invalid, 3);
-            throw new InvalidArgumentException(
-                "Data contains invalid characters \"{$invalid}\""
-            );
-        }
+        $this->validateInput($data);
 
         $data = str_split($data);
         $data = array_map(function ($character) {
@@ -176,16 +167,7 @@ class GmpEncoder extends BaseEncoder
             $data = str_replace(["O", "L", "I", "-"], ["0", "1", "1", ""], $data);
         }
 
-        /* If the data contains characters that aren't in the character set. */
-        $characters = $this->characters() . $this->padding();
-        if (strlen($data) !== strspn($data, $characters)) {
-            $valid = str_split($this->characters());
-            $invalid = str_replace($valid, "", $data);
-            $invalid = count_chars($invalid, 3);
-            throw new InvalidArgumentException(
-                "Data contains invalid characters \"{$invalid}\""
-            );
-        }
+        $this->validateInput($data);
 
         $data = str_split($data);
         $data = array_map(function ($character) {
