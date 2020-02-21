@@ -123,7 +123,7 @@ print $inverted->encode("Hello world!"); /* 91JPRV3F41VPYWKCCGGG==== */
 Install GMP if you can. It is reasonably faster pure PHP encoder. Below benchmarks are for encoding `random_bytes(128)` data.
 
 ```
-$ vendor/bin/phpbench run benchmarks/ --report=default
+$ make benchmark
 
 benchmark: Base32Bench
 +-----------------------+----------------+-------+
