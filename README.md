@@ -120,19 +120,19 @@ print $inverted->encode("Hello world!"); /* 91JPRV3F41VPYWKCCGGG==== */
 
 ## Speed
 
-Install GMP if you can. It is much faster pure PHP encoder. Below benchmarks are for encoding `random_bytes(128)` data. BCMatch encoder is also included but it is mostly just a curiosity. It is too slow to be usable.
+Install GMP if you can. It is reasonably faster pure PHP encoder. Below benchmarks are for encoding `random_bytes(128)` data.
 
 ```
-$ phpbench run benchmarks/ --report=default
+$ make benchmark
 
-+-----------------------+-----------------+----------------+
-| subject               | mean            | diff           |
-+-----------------------+-----------------+----------------+
-| benchGmpEncoder       | 73,099.415ops/s | 0.00%          |
-| benchGmpEncoderCustom | 61,349.693ops/s | +19.15%        |
-| benchPhpEncoder       | 25.192ops/s     | +290,072.37%   |
-| benchBcmathEncoder    | 7.264ops/s      | +1,006,253.07% |
-+-----------------------+-----------------+----------------+
+benchmark: Base32Bench
++-----------------------+----------------+-------+
+| subject               | mean           | diff  |
++-----------------------+----------------+-------+
+| benchGmpEncoder       | 8,361.204ops/s | 1.00x |
+| benchGmpEncoderCustom | 8,393.487ops/s | 1.00x |
+| benchPhpEncoder       | 6,881.365ops/s | 1.22x |
++-----------------------+----------------+-------+
 ```
 
 ## Static Proxy

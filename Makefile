@@ -32,6 +32,9 @@ test: lint unit static
 
 travis: lint unit static
 
+benchmark: vendor
+	vendor/bin/phpbench run benchmarks/ --report=default
+
 clean:
 	rm -rf vendor
 	rm composer.lock
