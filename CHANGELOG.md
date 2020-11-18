@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [2.0.0](https://github.com/tuupola/base32/compare/1.0.0...master) - unreleased
 
+### Added
+- Allow installing with PHP 8 ([#21](https://github.com/tuupola/base32/pull/21/files)).
+
 ### Changed
 - PHP 7.1 is now minimum requirement ([#11](https://github.com/tuupola/base32/pull/11)).
 - All methods are typehinted and have return types ([#13](https://github.com/tuupola/base32/pull/13)).
