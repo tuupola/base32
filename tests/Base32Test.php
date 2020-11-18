@@ -40,7 +40,7 @@ use PHPUnit\Framework\TestCase;
 
 class Base32Test extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Base32Proxy::$options = [
             "characters" => Base32::RFC4648,
