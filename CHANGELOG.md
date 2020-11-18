@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## [2.0.0](https://github.com/tuupola/base32/compare/1.0.0...master) - unreleased
+## [2.0.0](https://github.com/tuupola/base32/compare/1.0.0...2.0.0) - 2020-11-18
 
 ### Added
 - Allow installing with PHP 8 ([#21](https://github.com/tuupola/base32/pull/21/files)).
