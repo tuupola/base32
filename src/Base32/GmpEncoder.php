@@ -111,7 +111,7 @@ class GmpEncoder extends BaseEncoder
 
         return implode("", array_map(function ($byte) {
             //return pack("C", bindec($byte));
-            return chr(bindec($byte));
+            return chr((int)bindec($byte));
         }, $data));
     }
 
@@ -178,6 +178,6 @@ class GmpEncoder extends BaseEncoder
         }, $data);
         $binary = implode("", $data);
 
-        return bindec($binary);
+        return (int)bindec($binary);
     }
 }

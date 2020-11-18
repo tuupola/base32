@@ -112,7 +112,7 @@ class PhpEncoder extends BaseEncoder
         }
 
         return implode("", array_map(function ($byte) {
-            return chr(bindec($byte));
+            return chr((int)bindec($byte));
         }, $data));
     }
 
@@ -179,6 +179,6 @@ class PhpEncoder extends BaseEncoder
         }, $data);
         $binary = implode("", $data);
 
-        return bindec($binary);
+        return (int)bindec($binary);
     }
 }

@@ -55,6 +55,7 @@ abstract class BaseEncoder
         $this->options = array_merge($this->options, (array) $options);
 
         $uniques = count_chars($this->characters(), 3);
+        /** @phpstan-ignore-next-line */
         if (32 !== strlen($uniques) || 32 !== strlen($this->characters())) {
             throw new InvalidArgumentException("Character set must 32 unique characters");
         }
@@ -68,6 +69,7 @@ abstract class BaseEncoder
             $invalid = str_replace($valid, "", $data);
             $invalid = count_chars($invalid, 3);
             throw new InvalidArgumentException(
+                /** @phpstan-ignore-next-line */
                 "Data contains invalid characters \"{$invalid}\""
             );
         }
