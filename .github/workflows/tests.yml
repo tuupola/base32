@@ -15,7 +15,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: gmp
-          #coverage: pcov
+          coverage: xdebug
       - name: Set composer cache
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
