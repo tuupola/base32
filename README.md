@@ -93,7 +93,7 @@ When decoding, upper and lower case letters are accepted, and i and l will be tr
 $crockford = new Base32([
     "characters" => Base32::CROCKFORD,
     "padding" => false,
-    "crocford" => true,
+    "crockford" => true,
 ]);
 
 print $crockford->encode("Hello world!"); /* 91JPRV3F41VPYWKCCGGG */
