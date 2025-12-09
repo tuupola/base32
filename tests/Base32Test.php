@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2020 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -48,12 +48,12 @@ class Base32Test extends TestCase
         ];
     }
 
-    public function testShouldBeTrue()
+    public function testShouldBeTrue(): void
     {
         $this->assertTrue(true);
     }
 
-    public function testPhpShouldEncodeFoobar()
+    public function testPhpShouldEncodeFoobar(): void
     {
         $encoded = (new PhpEncoder)->encode("f");
         $this->assertEquals("MY======", $encoded);
@@ -86,7 +86,7 @@ class Base32Test extends TestCase
         $this->assertEquals("", $encoded);
     }
 
-    public function testShouldDecodeFoobar()
+    public function testShouldDecodeFoobar(): void
     {
         $decoded = (new PhpEncoder)->decode("MY======");
         $this->assertEquals("f", $decoded);
@@ -122,7 +122,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeRandomBytes($configuration)
+    public function testShouldEncodeAndDecodeRandomBytes($configuration): void
     {
         $data = random_bytes(128);
 
@@ -150,7 +150,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeIntegers($configuration)
+    public function testShouldEncodeAndDecodeIntegers($configuration): void
     {
         $data = 987654321;
 
@@ -175,7 +175,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decodeInteger($encoded5));
     }
 
-    public function testShouldAutoSelectEncoder()
+    public function testShouldAutoSelectEncoder(): void
     {
         $data = random_bytes(128);
         $encoded = (new Base32)->encode($data);
@@ -184,7 +184,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, $decoded);
     }
 
-    public function testShouldUseDefaultCharacterSet()
+    public function testShouldUseDefaultCharacterSet(): void
     {
         $data = "Hello world!";
 
@@ -217,7 +217,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeBigIntegers($configuration)
+    public function testShouldEncodeAndDecodeBigIntegers($configuration): void
     {
         $data = PHP_INT_MAX;
 
@@ -245,7 +245,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeZero($configuration)
+    public function testShouldEncodeAndDecodeZero($configuration): void
     {
         $data = 0;
 
@@ -273,7 +273,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider smallIntegerProvider
      */
-    public function testShouldEncodeAndDecodeSmallIntegers($data)
+    public function testShouldEncodeAndDecodeSmallIntegers($data): void
     {
         $php = new PhpEncoder();
         $gmp = new GmpEncoder();
@@ -294,7 +294,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider encoderProvider
      */
-    public function testShouldThrowExceptionOnEncodeNegativeInteger($encoder)
+    public function testShouldThrowExceptionOnEncodeNegativeInteger($encoder): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Cannot encode negative integer");
@@ -304,7 +304,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider encoderProvider
      */
-    public function testShouldDecodeWithoutPadding($encoder)
+    public function testShouldDecodeWithoutPadding($encoder): void
     {
         /* "foo" encoded is "MZXW6===" with padding */
         $this->assertEquals("foo", $encoder->decode("MZXW6"));
@@ -316,7 +316,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeSingleZeroByte($configuration)
+    public function testShouldEncodeAndDecodeSingleZeroByte($configuration): void
     {
         $data = "\x00";
 
@@ -344,7 +344,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeMultipleZeroBytes($configuration)
+    public function testShouldEncodeAndDecodeMultipleZeroBytes($configuration): void
     {
         $data = "\x00\x00\x00";
 
@@ -372,7 +372,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeSingleZeroBytePrefix($configuration)
+    public function testShouldEncodeAndDecodeSingleZeroBytePrefix($configuration): void
     {
         $data = "\x00\x01\x02";
 
@@ -400,7 +400,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider configurationProvider
      */
-    public function testShouldEncodeAndDecodeMultipleZeroBytePrefix($configuration)
+    public function testShouldEncodeAndDecodeMultipleZeroBytePrefix($configuration): void
     {
         $data = "\x00\x00\x00\x01\x02";
 
@@ -428,7 +428,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider encoderProvider
      */
-    public function testShouldThrowExceptionOnDecodeEmptyString($encoder)
+    public function testShouldThrowExceptionOnDecodeEmptyString($encoder): void
     {
         $invalid = "";
         $this->expectException(InvalidArgumentException::class);
@@ -439,7 +439,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider encoderProvider
      */
-    public function testShouldThrowExceptionOnDecodeInvalidData($encoder)
+    public function testShouldThrowExceptionOnDecodeInvalidData($encoder): void
     {
         $invalid = "invalid~data-%@#!@*#-foo";
         $this->expectException(InvalidArgumentException::class);
@@ -450,7 +450,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider classProvider
      */
-    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($class)
+    public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($class): void
     {
         $invalid = "JBSWY3DPEB3W64TMMQQQ====";
         $options = [
@@ -465,7 +465,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider classProvider
      */
-    public function testShouldThrowExceptionWithTooSmallCharacterSet($class)
+    public function testShouldThrowExceptionWithTooSmallCharacterSet($class): void
     {
         /* Only 31 characters. */
         $options = [
@@ -479,7 +479,7 @@ class Base32Test extends TestCase
     /**
      * @dataProvider classProvider
      */
-    public function testShouldThrowExceptionWitDuplicateCharactersInSet($class)
+    public function testShouldThrowExceptionWitDuplicateCharactersInSet($class): void
     {
         /* Duplicate characters. */
         $options = [
@@ -490,7 +490,7 @@ class Base32Test extends TestCase
         $decoder = new $class($options);
     }
 
-    public function testShouldHandleCrockford()
+    public function testShouldHandleCrockford(): void
     {
         $encoded1 = "91JPRV3F41VPYWKCCGGJ0Y3R";
         $encoded2 = "91jprv3f41vpywkccggj0y3r";
