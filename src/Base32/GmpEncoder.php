@@ -156,7 +156,7 @@ class GmpEncoder extends BaseEncoder
      */
     public function decodeInteger(string $data): int
     {
-        if (empty($data)) {
+        if ($data === "") {
             throw new InvalidArgumentException(
                 "Cannot decode empty string as integer"
             );
