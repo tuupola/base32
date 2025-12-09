@@ -292,24 +292,13 @@ class Base32Test extends TestCase
     }
 
     /**
-     * @dataProvider negativeIntegerProvider
+     * @dataProvider encoderProvider
      */
-    public function testShouldEncodeAndDecodeNegativeIntegers($data)
+    public function testShouldThrowExceptionOnEncodeNegativeInteger($encoder)
     {
-        $php = new PhpEncoder();
-        $gmp = new GmpEncoder();
-        $base32 = new Base32();
-
-        $encoded = $php->encodeInteger($data);
-        $encoded2 = $gmp->encodeInteger($data);
-        $encoded4 = $base32->encodeInteger($data);
-
-        $this->assertEquals($encoded2, $encoded);
-        $this->assertEquals($encoded4, $encoded);
-
-        $this->assertEquals($data, $php->decodeInteger($encoded));
-        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
-        $this->assertEquals($data, $base32->decodeInteger($encoded4));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Cannot encode negative integer");
+        $encoder->encodeInteger(-1);
     }
 
     /**
@@ -581,16 +570,6 @@ class Base32Test extends TestCase
             "256 (9 bits)" => [256],
             "1023 (10 bits max)" => [1023],
             "1024 (11 bits)" => [1024],
-        ];
-    }
-
-    public static function negativeIntegerProvider(): array
-    {
-        return [
-            "minus one" => [-1],
-            "minus two" => [-2],
-            "minus 255" => [-255],
-            "PHP_INT_MIN" => [PHP_INT_MIN],
         ];
     }
 }

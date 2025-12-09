@@ -120,6 +120,12 @@ class GmpEncoder extends BaseEncoder
      */
     public function encodeInteger(int $data): string
     {
+        if ($data < 0) {
+            throw new InvalidArgumentException(
+                "Cannot encode negative integer"
+            );
+        }
+
         /* Create binary string zeropadded to eight bits. */
         $binary = gmp_strval(gmp_init($data, 10), 2);
         if ($modulus = strlen($binary) % 5) {
