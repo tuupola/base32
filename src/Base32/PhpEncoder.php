@@ -121,6 +121,12 @@ class PhpEncoder extends BaseEncoder
      */
     public function encodeInteger(int $data): string
     {
+        if ($data < 0) {
+            throw new InvalidArgumentException(
+                "Cannot encode negative integer"
+            );
+        }
+
         /* Create binary string zeropadded to eight bits. */
         $binary = decbin($data);
         if ($modulus = strlen($binary) % 5) {
