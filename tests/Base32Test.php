@@ -37,6 +37,7 @@ use InvalidArgumentException;
 use Tuupola\Base32;
 use Tuupola\Base32Proxy;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class Base32Test extends TestCase
 {
@@ -119,9 +120,7 @@ class Base32Test extends TestCase
         $this->assertEquals("", $decoded);
     }
 
-    /**
-     * @dataProvider configurationProvider
-     */
+    #[DataProvider('configurationProvider')]
     public function testShouldEncodeAndDecodeRandomBytes($configuration)
     {
         $data = random_bytes(128);
@@ -147,9 +146,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    /**
-     * @dataProvider configurationProvider
-     */
+    #[DataProvider('configurationProvider')]
     public function testShouldEncodeAndDecodeIntegers($configuration)
     {
         $data = 987654321;
@@ -214,9 +211,7 @@ class Base32Test extends TestCase
         $this->assertEquals($encoded5, "AAAACAQDAQCQM===");
     }
 
-    /**
-     * @dataProvider configurationProvider
-     */
+    #[DataProvider('configurationProvider')]
     public function testShouldEncodeAndDecodeBigIntegers($configuration)
     {
         $data = PHP_INT_MAX;
@@ -242,9 +237,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decodeInteger($encoded5));
     }
 
-    /**
-     * @dataProvider configurationProvider
-     */
+    #[DataProvider('configurationProvider')]
     public function testShouldEncodeAndDecodeSingleZeroByte($configuration)
     {
         $data = "\x00";
@@ -270,9 +263,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    /**
-     * @dataProvider configurationProvider
-     */
+    #[DataProvider('configurationProvider')]
     public function testShouldEncodeAndDecodeMultipleZeroBytes($configuration)
     {
         $data = "\x00\x00\x00";
@@ -298,9 +289,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    /**
-     * @dataProvider configurationProvider
-     */
+    #[DataProvider('configurationProvider')]
     public function testShouldEncodeAndDecodeSingleZeroBytePrefix($configuration)
     {
         $data = "\x00\x01\x02";
@@ -326,9 +315,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    /**
-     * @dataProvider configurationProvider
-     */
+    #[DataProvider('configurationProvider')]
     public function testShouldEncodeAndDecodeMultipleZeroBytePrefix($configuration)
     {
         $data = "\x00\x00\x00\x01\x02";
@@ -354,9 +341,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    /**
-     * @dataProvider encoderProvider
-     */
+    #[DataProvider('encoderProvider')]
     public function testShouldThrowExceptionOnDecodeEmptyString($encoder)
     {
         $invalid = "";
@@ -365,9 +350,7 @@ class Base32Test extends TestCase
         $encoder->decodeInteger($invalid);
     }
 
-    /**
-     * @dataProvider encoderProvider
-     */
+    #[DataProvider('encoderProvider')]
     public function testShouldThrowExceptionOnDecodeInvalidData($encoder)
     {
         $invalid = "invalid~data-%@#!@*#-foo";
@@ -376,9 +359,7 @@ class Base32Test extends TestCase
         $encoder->decode($invalid);
     }
 
-    /**
-     * @dataProvider classProvider
-     */
+    #[DataProvider('classProvider')]
     public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($class)
     {
         $invalid = "JBSWY3DPEB3W64TMMQQQ====";
@@ -391,9 +372,7 @@ class Base32Test extends TestCase
         $decoder->decode($invalid);
     }
 
-    /**
-     * @dataProvider classProvider
-     */
+    #[DataProvider('classProvider')]
     public function testShouldThrowExceptionWithTooSmallCharacterSet($class)
     {
         /* Only 31 characters. */
@@ -405,9 +384,7 @@ class Base32Test extends TestCase
         $decoder = new $class($options);
     }
 
-    /**
-     * @dataProvider classProvider
-     */
+    #[DataProvider('classProvider')]
     public function testShouldThrowExceptionWitDuplicateCharactersInSet($class)
     {
         /* Duplicate characters. */
@@ -443,7 +420,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, $gmp->decode($encoded3));
     }
 
-    public function configurationProvider()
+    public static function configurationProvider()
     {
         return [
             "RCF4684 mode" => [[
@@ -470,7 +447,7 @@ class Base32Test extends TestCase
         ];
     }
 
-    public function encoderProvider()
+    public static function encoderProvider()
     {
         return [
             PhpEncoder::class => [new PhpEncoder()],
@@ -479,7 +456,7 @@ class Base32Test extends TestCase
         ];
     }
 
-    public function classProvider()
+    public static function classProvider()
     {
         return [
             PhpEncoder::class => [PhpEncoder::class],
