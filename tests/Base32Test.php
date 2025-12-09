@@ -37,7 +37,6 @@ use InvalidArgumentException;
 use Tuupola\Base32;
 use Tuupola\Base32Proxy;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 class Base32Test extends TestCase
 {
@@ -120,7 +119,9 @@ class Base32Test extends TestCase
         $this->assertEquals("", $decoded);
     }
 
-    #[DataProvider('configurationProvider')]
+    /**
+     * @dataProvider configurationProvider
+     */
     public function testShouldEncodeAndDecodeRandomBytes($configuration)
     {
         $data = random_bytes(128);
@@ -146,7 +147,9 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    #[DataProvider('configurationProvider')]
+    /**
+     * @dataProvider configurationProvider
+     */
     public function testShouldEncodeAndDecodeIntegers($configuration)
     {
         $data = 987654321;
@@ -211,7 +214,9 @@ class Base32Test extends TestCase
         $this->assertEquals($encoded5, "AAAACAQDAQCQM===");
     }
 
-    #[DataProvider('configurationProvider')]
+    /**
+     * @dataProvider configurationProvider
+     */
     public function testShouldEncodeAndDecodeBigIntegers($configuration)
     {
         $data = PHP_INT_MAX;
@@ -237,7 +242,91 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decodeInteger($encoded5));
     }
 
-    #[DataProvider('configurationProvider')]
+    /**
+     * @dataProvider configurationProvider
+     */
+    public function testShouldEncodeAndDecodeZero($configuration)
+    {
+        $data = 0;
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+
+        $encoded = $php->encodeInteger($data);
+        $encoded2 = $gmp->encodeInteger($data);
+        $encoded4 = $base32->encodeInteger($data);
+
+        Base32Proxy::$options = $configuration;
+        $encoded5 = Base32Proxy::encodeInteger($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decodeInteger($encoded));
+        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+        $this->assertEquals($data, $base32->decodeInteger($encoded4));
+        $this->assertEquals($data, Base32Proxy::decodeInteger($encoded5));
+    }
+
+    /**
+     * @dataProvider smallIntegerProvider
+     */
+    public function testShouldEncodeAndDecodeSmallIntegers($data)
+    {
+        $php = new PhpEncoder();
+        $gmp = new GmpEncoder();
+        $base32 = new Base32();
+
+        $encoded = $php->encodeInteger($data);
+        $encoded2 = $gmp->encodeInteger($data);
+        $encoded4 = $base32->encodeInteger($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+
+        $this->assertEquals($data, $php->decodeInteger($encoded));
+        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+        $this->assertEquals($data, $base32->decodeInteger($encoded4));
+    }
+
+    /**
+     * @dataProvider negativeIntegerProvider
+     */
+    public function testShouldEncodeAndDecodeNegativeIntegers($data)
+    {
+        $php = new PhpEncoder();
+        $gmp = new GmpEncoder();
+        $base32 = new Base32();
+
+        $encoded = $php->encodeInteger($data);
+        $encoded2 = $gmp->encodeInteger($data);
+        $encoded4 = $base32->encodeInteger($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+
+        $this->assertEquals($data, $php->decodeInteger($encoded));
+        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+        $this->assertEquals($data, $base32->decodeInteger($encoded4));
+    }
+
+    /**
+     * @dataProvider encoderProvider
+     */
+    public function testShouldDecodeWithoutPadding($encoder)
+    {
+        /* "foo" encoded is "MZXW6===" with padding */
+        $this->assertEquals("foo", $encoder->decode("MZXW6"));
+
+        /* "f" encoded is "MY======" with padding */
+        $this->assertEquals("f", $encoder->decode("MY"));
+    }
+
+    /**
+     * @dataProvider configurationProvider
+     */
     public function testShouldEncodeAndDecodeSingleZeroByte($configuration)
     {
         $data = "\x00";
@@ -263,7 +352,9 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    #[DataProvider('configurationProvider')]
+    /**
+     * @dataProvider configurationProvider
+     */
     public function testShouldEncodeAndDecodeMultipleZeroBytes($configuration)
     {
         $data = "\x00\x00\x00";
@@ -289,7 +380,9 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    #[DataProvider('configurationProvider')]
+    /**
+     * @dataProvider configurationProvider
+     */
     public function testShouldEncodeAndDecodeSingleZeroBytePrefix($configuration)
     {
         $data = "\x00\x01\x02";
@@ -315,7 +408,9 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    #[DataProvider('configurationProvider')]
+    /**
+     * @dataProvider configurationProvider
+     */
     public function testShouldEncodeAndDecodeMultipleZeroBytePrefix($configuration)
     {
         $data = "\x00\x00\x00\x01\x02";
@@ -341,7 +436,9 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded5));
     }
 
-    #[DataProvider('encoderProvider')]
+    /**
+     * @dataProvider encoderProvider
+     */
     public function testShouldThrowExceptionOnDecodeEmptyString($encoder)
     {
         $invalid = "";
@@ -350,7 +447,9 @@ class Base32Test extends TestCase
         $encoder->decodeInteger($invalid);
     }
 
-    #[DataProvider('encoderProvider')]
+    /**
+     * @dataProvider encoderProvider
+     */
     public function testShouldThrowExceptionOnDecodeInvalidData($encoder)
     {
         $invalid = "invalid~data-%@#!@*#-foo";
@@ -359,7 +458,9 @@ class Base32Test extends TestCase
         $encoder->decode($invalid);
     }
 
-    #[DataProvider('classProvider')]
+    /**
+     * @dataProvider classProvider
+     */
     public function testShouldThrowExceptionOnDecodeInvalidDataWithCustomCharacterSet($class)
     {
         $invalid = "JBSWY3DPEB3W64TMMQQQ====";
@@ -372,7 +473,9 @@ class Base32Test extends TestCase
         $decoder->decode($invalid);
     }
 
-    #[DataProvider('classProvider')]
+    /**
+     * @dataProvider classProvider
+     */
     public function testShouldThrowExceptionWithTooSmallCharacterSet($class)
     {
         /* Only 31 characters. */
@@ -384,7 +487,9 @@ class Base32Test extends TestCase
         $decoder = new $class($options);
     }
 
-    #[DataProvider('classProvider')]
+    /**
+     * @dataProvider classProvider
+     */
     public function testShouldThrowExceptionWitDuplicateCharactersInSet($class)
     {
         /* Duplicate characters. */
@@ -420,7 +525,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, $gmp->decode($encoded3));
     }
 
-    public static function configurationProvider()
+    public static function configurationProvider(): array
     {
         return [
             "RCF4684 mode" => [[
@@ -447,7 +552,7 @@ class Base32Test extends TestCase
         ];
     }
 
-    public static function encoderProvider()
+    public static function encoderProvider(): array
     {
         return [
             PhpEncoder::class => [new PhpEncoder()],
@@ -456,12 +561,36 @@ class Base32Test extends TestCase
         ];
     }
 
-    public static function classProvider()
+    public static function classProvider(): array
     {
         return [
             PhpEncoder::class => [PhpEncoder::class],
             GmpEncoder::class => [GmpEncoder::class],
             Base32::class => [Base32::class],
+        ];
+    }
+
+    public static function smallIntegerProvider(): array
+    {
+        return [
+            "one" => [1],
+            "two" => [2],
+            "thirty-one (5 bits max)" => [31],
+            "thirty-two (6 bits)" => [32],
+            "255 (8 bits max)" => [255],
+            "256 (9 bits)" => [256],
+            "1023 (10 bits max)" => [1023],
+            "1024 (11 bits)" => [1024],
+        ];
+    }
+
+    public static function negativeIntegerProvider(): array
+    {
+        return [
+            "minus one" => [-1],
+            "minus two" => [-2],
+            "minus 255" => [-255],
+            "PHP_INT_MIN" => [PHP_INT_MIN],
         ];
     }
 }
