@@ -426,6 +426,90 @@ class Base32Test extends TestCase
     }
 
     /**
+     * @dataProvider configurationProvider
+     */
+    public function testShouldEncodeAndDecodeHighValueBytes($configuration): void
+    {
+        $data = "\xff\xff\xff";
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+
+        $encoded = $php->encode($data);
+        $encoded2 = $gmp->encode($data);
+        $encoded4 = $base32->encode($data);
+
+        Base32Proxy::$options = $configuration;
+        $encoded5 = Base32Proxy::encode($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decode($encoded));
+        $this->assertEquals($data, $gmp->decode($encoded2));
+        $this->assertEquals($data, $base32->decode($encoded4));
+        $this->assertEquals($data, Base32Proxy::decode($encoded5));
+    }
+
+    /**
+     * @dataProvider configurationProvider
+     */
+    public function testShouldEncodeAndDecodeAlternatingBytes($configuration): void
+    {
+        $data = "\x00\xff\x00\xff";
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+
+        $encoded = $php->encode($data);
+        $encoded2 = $gmp->encode($data);
+        $encoded4 = $base32->encode($data);
+
+        Base32Proxy::$options = $configuration;
+        $encoded5 = Base32Proxy::encode($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decode($encoded));
+        $this->assertEquals($data, $gmp->decode($encoded2));
+        $this->assertEquals($data, $base32->decode($encoded4));
+        $this->assertEquals($data, Base32Proxy::decode($encoded5));
+    }
+
+    /**
+     * @dataProvider configurationProvider
+     */
+    public function testShouldEncodeAndDecodeTrailingZeroBytes($configuration): void
+    {
+        $data = "\x01\x02\x00\x00";
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+
+        $encoded = $php->encode($data);
+        $encoded2 = $gmp->encode($data);
+        $encoded4 = $base32->encode($data);
+
+        Base32Proxy::$options = $configuration;
+        $encoded5 = Base32Proxy::encode($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decode($encoded));
+        $this->assertEquals($data, $gmp->decode($encoded2));
+        $this->assertEquals($data, $base32->decode($encoded4));
+        $this->assertEquals($data, Base32Proxy::decode($encoded5));
+    }
+
+    /**
      * @dataProvider encoderProvider
      */
     public function testShouldThrowExceptionOnDecodeEmptyString($encoder): void
