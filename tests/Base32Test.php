@@ -588,6 +588,8 @@ class Base32Test extends TestCase
         ];
         $php = new PhpEncoder($configuration);
         $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+        Base32Proxy::$options = $configuration;
 
         $this->assertEquals($data, $php->decode($encoded1));
         $this->assertEquals($data, $php->decode($encoded2));
@@ -596,6 +598,14 @@ class Base32Test extends TestCase
         $this->assertEquals($data, $gmp->decode($encoded1));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $gmp->decode($encoded3));
+
+        $this->assertEquals($data, $base32->decode($encoded1));
+        $this->assertEquals($data, $base32->decode($encoded2));
+        $this->assertEquals($data, $base32->decode($encoded3));
+
+        $this->assertEquals($data, Base32Proxy::decode($encoded1));
+        $this->assertEquals($data, Base32Proxy::decode($encoded2));
+        $this->assertEquals($data, Base32Proxy::decode($encoded3));
     }
 
     public function testShouldEncodeAndDecodeCrockford(): void
@@ -625,6 +635,7 @@ class Base32Test extends TestCase
         $this->assertEquals($data, $php->decode($encoded));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $base32->decode($encoded3));
+        $this->assertEquals($data, Base32Proxy::decode($encoded3));
     }
 
     public function testShouldDecodeCrockfordWithMultipleReplacements(): void
