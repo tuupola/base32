@@ -574,7 +574,7 @@ class Base32Test extends TestCase
         $decoder = new $class($options);
     }
 
-    public function testShouldHandleCrockford(): void
+    public function testShouldHandleCrockfordLowerCaseAndDashes(): void
     {
         $encoded1 = "91JPRV3F41VPYWKCCGGJ0Y3R";
         $encoded2 = "91jprv3f41vpywkccggj0y3r";
@@ -596,6 +596,72 @@ class Base32Test extends TestCase
         $this->assertEquals($data, $gmp->decode($encoded1));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $gmp->decode($encoded3));
+    }
+
+    public function testShouldEncodeAndDecodeCrockford(): void
+    {
+        $configuration = [
+            "characters" => Base32::CROCKFORD,
+            "padding" => false,
+            "crockford" => true,
+        ];
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+        Base32Proxy::$options = $configuration;
+
+        $data = "Hello world! xx";
+
+        $encoded = $php->encode($data);
+        $encoded2 = $gmp->encode($data);
+        $encoded3 = $base32->encode($data);
+        $encoded4 = Base32Proxy::encode($data);
+
+        $this->assertEquals($encoded, $encoded2);
+        $this->assertEquals($encoded, $encoded3);
+        $this->assertEquals($encoded, $encoded4);
+
+        $this->assertEquals($data, $php->decode($encoded));
+        $this->assertEquals($data, $gmp->decode($encoded2));
+        $this->assertEquals($data, $base32->decode($encoded3));
+    }
+
+    public function testShouldDecodeCrockfordWithMultipleReplacements(): void
+    {
+        $configuration = [
+            "characters" => Base32::CROCKFORD,
+            "padding" => false,
+            "crockford" => true,
+        ];
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+        Base32Proxy::$options = $configuration;
+
+        $data = "Hello world! xx";
+        $encoded = "91JPRV3F41VPYWKCCGGJ0Y3R";
+
+        /* Replace 1 with I */
+        $encoded_i = "9IJPRV3F4IVPYWKCCGGJ0Y3R";
+        $this->assertEquals($data, $php->decode($encoded_i));
+        $this->assertEquals($data, $gmp->decode($encoded_i));
+        $this->assertEquals($data, $base32->decode($encoded_i));
+        $this->assertEquals($data, Base32Proxy::decode($encoded_i));
+
+        /* Replace 0 with O */
+        $encoded_o = "91JPRV3F41VPYWKCCGGJOY3R";
+        $this->assertEquals($data, $php->decode($encoded_o));
+        $this->assertEquals($data, $gmp->decode($encoded_o));
+        $this->assertEquals($data, $base32->decode($encoded_o));
+        $this->assertEquals($data, Base32Proxy::decode($encoded_o));
+
+        /* Replace 1 with L */
+        $encoded_l = "9LJPRV3F4LVPYWKCCGGJ0Y3R";
+        $this->assertEquals($data, $php->decode($encoded_l));
+        $this->assertEquals($data, $gmp->decode($encoded_l));
+        $this->assertEquals($data, $base32->decode($encoded_l));
+        $this->assertEquals($data, Base32Proxy::decode($encoded_l));
     }
 
     public static function configurationProvider(): array
