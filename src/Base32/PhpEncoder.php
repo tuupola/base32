@@ -62,7 +62,7 @@ class PhpEncoder extends BaseEncoder
 
         /* Convert each five bits to Base32 character. */
         $encoded = implode("", array_map(function ($fivebits) {
-            $index = bindec($fivebits);
+            $index = (int)bindec($fivebits);
             return $this->characters()[$index];
         }, $binary));
 
@@ -143,7 +143,7 @@ class PhpEncoder extends BaseEncoder
 
         /* Convert each five bits to Base32 character. */
         $encoded = implode("", array_map(function ($fivebits) {
-            $index = bindec($fivebits);
+            $index = (int)bindec($fivebits);
             return $this->characters()[$index];
         }, $binary));
 
