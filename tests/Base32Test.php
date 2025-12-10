@@ -664,6 +664,56 @@ class Base32Test extends TestCase
         $this->assertEquals($data, Base32Proxy::decode($encoded_l));
     }
 
+    public function testShouldDecodeCrockfordReplacementsAtBothEdges(): void
+    {
+        $configuration = [
+            "characters" => Base32::CROCKFORD,
+            "padding" => false,
+            "crockford" => true,
+        ];
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+        Base32Proxy::$options = $configuration;
+
+        $data1 = "\x00";
+        $encoded1 = "00";
+
+        /* Replace both 0s with O */
+        $replaced1 = "OO";
+        $this->assertEquals($data1, $php->decode($replaced1));
+        $this->assertEquals($data1, $gmp->decode($replaced1));
+        $this->assertEquals($data1, $base32->decode($replaced1));
+        $this->assertEquals($data1, Base32Proxy::decode($replaced1));
+
+        $data2 = "\x08";
+        $encoded2 = "10";
+
+        /* Replace 1 with I and 0 with O */
+        $encoded2_i = "IO";
+        $this->assertEquals($data2, $php->decode($encoded2_i));
+        $this->assertEquals($data2, $gmp->decode($encoded2_i));
+        $this->assertEquals($data2, $base32->decode($encoded2_i));
+        $this->assertEquals($data2, Base32Proxy::decode($encoded2_i));
+
+        /* Replace 1 with L and 0 with O */
+        $encoded2_l = "LO";
+        $this->assertEquals($data2, $php->decode($encoded2_l));
+        $this->assertEquals($data2, $gmp->decode($encoded2_l));
+        $this->assertEquals($data2, $base32->decode($encoded2_l));
+        $this->assertEquals($data2, Base32Proxy::decode($encoded2_l));
+
+        $data3 = "\x00\x00";
+        $encoded3 = "0000";
+
+        /* Replace all 0s with O */
+        $encoded3_o = "OOOO";
+        $this->assertEquals($data3, $php->decode($encoded3_o));
+        $this->assertEquals($data3, $gmp->decode($encoded3_o));
+        $this->assertEquals($data3, $base32->decode($encoded3_o));
+        $this->assertEquals($data3, Base32Proxy::decode($encoded3_o));
+    }
+
     public static function configurationProvider(): array
     {
         return [
