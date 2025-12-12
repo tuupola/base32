@@ -39,14 +39,20 @@ class Base32Proxy
 {
     /**
       */
-    public static $options = [];
+    public static string $characters = Base32::RFC4648;
+    public static string|false $padding = "=";
+    public static bool $crockford = false;
 
     /**
      * Encode given data to a base32 string
      */
     public static function encode(string $data): string
     {
-        return (new Base32(...self::$options))->encode($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->encode($data);
     }
 
     /**
@@ -54,7 +60,11 @@ class Base32Proxy
      */
     public static function decode(string $data): string
     {
-        return (new Base32(...self::$options))->decode($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->decode($data);
     }
 
     /**
@@ -62,7 +72,11 @@ class Base32Proxy
      */
     public static function encodeInteger(int $data): string
     {
-        return (new Base32(...self::$options))->encodeInteger($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->encodeInteger($data);
     }
 
     /**
@@ -70,6 +84,10 @@ class Base32Proxy
      */
     public static function decodeInteger(string $data): int
     {
-        return (new Base32(...self::$options))->decodeInteger($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->decodeInteger($data);
     }
 }

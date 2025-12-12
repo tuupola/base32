@@ -42,10 +42,9 @@ class Base32Test extends TestCase
 {
     protected function tearDown(): void
     {
-        Base32Proxy::$options = [
-            "characters" => Base32::RFC4648,
-            "padding" => "=",
-        ];
+        Base32Proxy::$characters = Base32::RFC4648;
+        Base32Proxy::$padding = "=";
+        Base32Proxy::$crockford = false;
     }
 
     public function testShouldBeTrue(): void
@@ -134,7 +133,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -162,7 +163,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encodeInteger($data);
         $encoded4 = $base32->encodeInteger($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encodeInteger($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -229,7 +232,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encodeInteger($data);
         $encoded4 = $base32->encodeInteger($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encodeInteger($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -257,7 +262,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encodeInteger($data);
         $encoded4 = $base32->encodeInteger($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encodeInteger($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -328,7 +335,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -356,7 +365,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -384,7 +395,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -412,7 +425,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -440,7 +455,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -468,7 +485,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -496,7 +515,9 @@ class Base32Test extends TestCase
         $encoded2 = $gmp->encode($data);
         $encoded4 = $base32->encode($data);
 
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
         $encoded5 = Base32Proxy::encode($data);
 
         $this->assertEquals($encoded2, $encoded);
@@ -589,7 +610,9 @@ class Base32Test extends TestCase
         $php = new PhpEncoder(...$configuration);
         $gmp = new GmpEncoder(...$configuration);
         $base32 = new Base32(...$configuration);
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
 
         $this->assertEquals($data, $php->decode($encoded1));
         $this->assertEquals($data, $php->decode($encoded2));
@@ -619,7 +642,9 @@ class Base32Test extends TestCase
         $php = new PhpEncoder(...$configuration);
         $gmp = new GmpEncoder(...$configuration);
         $base32 = new Base32(...$configuration);
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
 
         $data = "Hello world! xx";
 
@@ -648,7 +673,9 @@ class Base32Test extends TestCase
         $php = new PhpEncoder(...$configuration);
         $gmp = new GmpEncoder(...$configuration);
         $base32 = new Base32(...$configuration);
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
 
         $data = "Hello world! xx";
         $encoded = "91JPRV3F41VPYWKCCGGJ0Y3R";
@@ -685,7 +712,9 @@ class Base32Test extends TestCase
         $php = new PhpEncoder(...$configuration);
         $gmp = new GmpEncoder(...$configuration);
         $base32 = new Base32(...$configuration);
-        Base32Proxy::$options = $configuration;
+        Base32Proxy::$characters = $configuration["characters"];
+        Base32Proxy::$padding = $configuration["padding"];
+        Base32Proxy::$crockford = $configuration["crockford"] ?? false;
 
         $data1 = "\x00";
         $encoded1 = "00";
