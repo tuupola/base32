@@ -78,7 +78,7 @@ abstract class BaseEncoder
     }
 
     /**
-     * Return the value of the padding setting
+     * Return the value of the padding setting or empty string if false
      */
     protected function padding(): string
     {
