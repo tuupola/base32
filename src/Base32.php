@@ -51,9 +51,9 @@ class Base32
       * @param bool $crockford Use Crockford encoding if true
       */
     public function __construct(
-        private string $characters = Base32::RFC4648,
-        private string|false $padding = "=",
-        private bool $crockford = false
+        private readonly string $characters = Base32::RFC4648,
+        private readonly string|false $padding = "=",
+        private readonly bool $crockford = false
     ) {
         if (function_exists("gmp_init")) {
             $this->encoder = new Base32\GmpEncoder(
