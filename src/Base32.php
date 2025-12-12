@@ -33,18 +33,17 @@ SOFTWARE.
 
 namespace Tuupola;
 
+use Tuupola\Base32\BaseEncoder;
+
 class Base32
 {
-    const CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
-    const RFC4648 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-    const ZBASE32 = "ybndrfg8ejkmcpqxot1uwisza345h769";
-    const GMP = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
-    const HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
+    public const CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+    public const RFC4648 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+    public const ZBASE32 = "ybndrfg8ejkmcpqxot1uwisza345h769";
+    public const GMP = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
+    public const HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
 
-    /**
-      * @var Base32\GmpEncoder|Base32\PhpEncoder
-      */
-    private $encoder;
+    private BaseEncoder $encoder;
 
     /**
       * @param string $characters Character set to use for encoding
