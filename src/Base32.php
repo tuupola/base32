@@ -33,7 +33,8 @@ SOFTWARE.
 
 namespace Tuupola;
 
-use Tuupola\Base32\BaseEncoder;
+use Tuupola\Base32\GmpEncoder;
+use Tuupola\Base32\PhpEncoder;
 
 class Base32
 {
@@ -43,7 +44,7 @@ class Base32
     public const GMP = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
     public const HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
 
-    private BaseEncoder $encoder;
+    private GmpEncoder|PhpEncoder $encoder;
 
     /**
       * @param string $characters Character set to use for encoding
