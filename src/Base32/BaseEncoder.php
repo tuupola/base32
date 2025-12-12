@@ -39,21 +39,15 @@ use Tuupola\Base32;
 abstract class BaseEncoder
 {
     /**
-     * @var array<string, bool|string>
-     */
-    protected $options = [
-        "characters" => Base32::RFC4648,
-        "padding" => "=",
-        "crockford" => false,
-    ];
-
-    /**
-     * @param array<string, bool|string> $options
-     */
-    public function __construct(array $options = [])
-    {
-        $this->options = array_merge($this->options, (array) $options);
-
+      * @param string $characters Character set to use for encoding
+      * @param string|false $padding Padding character or false if not used
+      * @param bool $crockford Use Crockford encoding if true
+      */
+    public function __construct(
+        private string $characters = Base32::RFC4648,
+        private string|false $padding = "=",
+        private bool $crockford = false
+    ) {
         $uniques = count_chars($this->characters(), 3);
         /** @phpstan-ignore-next-line */
         if (32 !== strlen($uniques) || 32 !== strlen($this->characters())) {
@@ -80,7 +74,7 @@ abstract class BaseEncoder
      */
     protected function characters(): string
     {
-        return (string) $this->options["characters"];
+        return (string) $this->characters;
     }
 
     /**
@@ -88,7 +82,7 @@ abstract class BaseEncoder
      */
     protected function padding(): string
     {
-        return (string) $this->options["padding"];
+        return (string) $this->padding;
     }
 
     /**
@@ -96,7 +90,7 @@ abstract class BaseEncoder
      */
     protected function isCrockford(): bool
     {
-        return true === $this->options["crockford"];
+        return true === $this->crockford;
     }
 
     /**
