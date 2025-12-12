@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2020 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,21 +39,15 @@ use Tuupola\Base32;
 abstract class BaseEncoder
 {
     /**
-     * @var array<string, bool|string>
-     */
-    protected $options = [
-        "characters" => Base32::RFC4648,
-        "padding" => "=",
-        "crockford" => false,
-    ];
-
-    /**
-     * @param array<string, bool|string> $options
-     */
-    public function __construct(array $options = [])
-    {
-        $this->options = array_merge($this->options, (array) $options);
-
+      * @param string $characters Character set to use for encoding
+      * @param string|false $padding Padding character or false if not used
+      * @param bool $crockford Use Crockford encoding if true
+      */
+    public function __construct(
+        private string $characters = Base32::RFC4648,
+        private string|false $padding = "=",
+        private bool $crockford = false
+    ) {
         $uniques = count_chars($this->characters(), 3);
         /** @phpstan-ignore-next-line */
         if (32 !== strlen($uniques) || 32 !== strlen($this->characters())) {
@@ -80,15 +74,15 @@ abstract class BaseEncoder
      */
     protected function characters(): string
     {
-        return (string) $this->options["characters"];
+        return (string) $this->characters;
     }
 
     /**
-     * Return the value of the padding setting
+     * Return the value of the padding setting or empty string if false
      */
     protected function padding(): string
     {
-        return (string) $this->options["padding"];
+        return (string) $this->padding;
     }
 
     /**
@@ -96,7 +90,7 @@ abstract class BaseEncoder
      */
     protected function isCrockford(): bool
     {
-        return true === $this->options["crockford"];
+        return true === $this->crockford;
     }
 
     /**

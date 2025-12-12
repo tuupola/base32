@@ -54,10 +54,10 @@ $string = $base32->encode("987654321"); /* FHE4DONRVGQZTEMI= */
 ```php
 use Tuupola\Base32;
 
-$base32 = new Base32([
-    "characters" => Base32::RFC4648,
-    "padding" => "="
-]);
+$base32 = new Base32(
+    characters: Base32::RFC4648,
+    padding: "="
+);
 
 print $base32->encode("Hello world!"); /* JBSWY3DPEB3W64TMMQQQ==== */
 ```
@@ -66,10 +66,10 @@ print $base32->encode("Hello world!"); /* JBSWY3DPEB3W64TMMQQQ==== */
 [RCF4684 base32hex](https://tools.ietf.org/html/rfc4648) encoding is identical to previous, except for the character set. This encoding is lexically sortable.
 
 ```php
-$base32hex = new Base32([
-    "characters" => Base32::HEX,
-    "padding" => "="
-]);
+$base32hex = new Base32(
+    characters: Base32::HEX,
+    padding: "="
+);
 
 print $base32->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG==== */
 ```
@@ -78,10 +78,10 @@ print $base32->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG==== */
 [GMP](http://php.net/manual/en/book.gmp.php) encoding is identical to previous. Example below is shown with padding disabled.
 
 ```php
-$gmp = new Base32([
-    "characters" => Base32::GMP,
-    "padding" => false
-]);
+$gmp = new Base32(
+    characters: Base32::GMP,
+    padding: false
+);
 
 print $gmp->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG */
 ```
@@ -91,11 +91,11 @@ print $gmp->encode("Hello world!"); /* 91IMOR3F41RMUSJCCGGG */
 When decoding, upper and lower case letters are accepted, and i and l will be treated as 1 and o will be treated as 0. When encoding, only upper case letters are used. Hyphens are ignored during decoding.
 
 ```php
-$crockford = new Base32([
-    "characters" => Base32::CROCKFORD,
-    "padding" => false,
-    "crockford" => true,
-]);
+$crockford = new Base32(
+    characters: Base32::CROCKFORD,
+    padding: false,
+    crockford: true
+);
 
 print $crockford->encode("Hello world!"); /* 91JPRV3F41VPYWKCCGGG */
 print $crockford->decode("91JPRV3F41VPYWKCCGGG"); /* Hello world! */
@@ -119,10 +119,10 @@ print Base32::ZBASE32; /* ybndrfg8ejkmcpqxot1uwisza345h769 */
 print Base32::GMP; /* 0123456789ABCDEFGHIJKLMNOPQRSTUV */
 print Base32::HEX; /* 0123456789ABCDEFGHIJKLMNOPQRSTUV */
 
-$default = new Base32(["characters" => Base32::RFC4648]);
-$crockford = new Base32(["characters" => Base32::CROCKFORD]);
-print $default->encode("Hello world!"); /* JBSWY3DPEB3W64TMMQQQ==== */
-print $inverted->encode("Hello world!"); /* 91JPRV3F41VPYWKCCGGG==== */
+$foo = new Base32(characters: Base32::RFC4648);
+$bar = new Base32(characters: Base32::CROCKFORD);
+print $foo->encode("Hello world!"); /* JBSWY3DPEB3W64TMMQQQ==== */
+print $bar->encode("Hello world!"); /* 91JPRV3F41VPYWKCCGGG==== */
 ```
 
 ## Speed

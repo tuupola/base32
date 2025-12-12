@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2020 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,20 +47,27 @@ class Base32
     private $encoder;
 
     /**
-      * @var array<string, bool|string> $options
+      * @param string $characters Character set to use for encoding
+      * @param string|false $padding Padding character or false if not used
+      * @param bool $crockford Use Crockford encoding if true
       */
-    private $options = [];
-
-    /**
-      * @param array<string, bool|string> $options
-      */
-    public function __construct(array $options = [])
-    {
-        $this->options = array_merge($this->options, (array) $options);
+    public function __construct(
+        private string $characters = Base32::RFC4648,
+        private string|false $padding = "=",
+        private bool $crockford = false
+    ) {
         if (function_exists("gmp_init")) {
-            $this->encoder = new Base32\GmpEncoder($this->options);
+            $this->encoder = new Base32\GmpEncoder(
+                characters: $this->characters,
+                padding: $this->padding,
+                crockford: $this->crockford
+            );
         }
-        $this->encoder = new Base32\PhpEncoder($this->options);
+        $this->encoder = new Base32\PhpEncoder(
+            characters: $this->characters,
+            padding: $this->padding,
+            crockford: $this->crockford
+        );
     }
 
     /**

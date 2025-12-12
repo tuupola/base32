@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2020 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,16 +38,30 @@ use Tuupola\Base32;
 class Base32Proxy
 {
     /**
-      * @var array<string, bool|string> $options
+      * @var string Character set to use for encoding
       */
-    public static $options = [];
+    public static string $characters = Base32::RFC4648;
+
+    /**
+      * @var string|false Padding character or false if not used
+      */
+    public static string|false $padding = "=";
+
+    /**
+      * @var bool Use Crockford encoding if true
+      */
+    public static bool $crockford = false;
 
     /**
      * Encode given data to a base32 string
      */
     public static function encode(string $data): string
     {
-        return (new Base32(self::$options))->encode($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->encode($data);
     }
 
     /**
@@ -55,7 +69,11 @@ class Base32Proxy
      */
     public static function decode(string $data): string
     {
-        return (new Base32(self::$options))->decode($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->decode($data);
     }
 
     /**
@@ -63,7 +81,11 @@ class Base32Proxy
      */
     public static function encodeInteger(int $data): string
     {
-        return (new Base32(self::$options))->encodeInteger($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->encodeInteger($data);
     }
 
     /**
@@ -71,6 +93,10 @@ class Base32Proxy
      */
     public static function decodeInteger(string $data): int
     {
-        return (new Base32(self::$options))->decodeInteger($data);
+        return (new Base32(
+            characters: self::$characters,
+            padding: self::$padding,
+            crockford: self::$crockford
+        ))->decodeInteger($data);
     }
 }

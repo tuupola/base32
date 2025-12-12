@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2020 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ class Base32Bench
     {
         $this->data = random_bytes(128);
         $this->gmp = new GmpEncoder;
-        $this->gmp2 = new GmpEncoder(["characters" => Base32::CROCKFORD]);
+        $this->gmp2 = new GmpEncoder(characters: Base32::CROCKFORD);
         $this->php = new PhpEncoder;
     }
 
