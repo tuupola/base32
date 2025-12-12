@@ -5,8 +5,12 @@ All notable changes to this project will be documented in this file, in reverse 
 ## [3.0.0](https://github.com/tuupola/base32/compare/2.0.0...3.0.0) - unreleased
 
 ### Changed
-- Constructors now use named parameters ([#37](https://github.com/tuupola/base32/pull/37)).
+- PHP 8.1 is now minimum requirement ([#27](https://github.com/tuupola/base32/pull/27))
+- Constructors now use named parameters ([#37](https://github.com/tuupola/base32/pull/37))
+- Throw an exception if trying to encode a negative integer ([#33](https://github.com/tuupola/base32/pull/33))
 
+### Fixed
+- Decoding integer 0 fails ([#30](https://github.com/tuupola/base32/issues/30), [#32](https://github.com/tuupola/base32/pull/32))
 
 ## [2.0.0](https://github.com/tuupola/base32/compare/1.0.0...2.0.0) - 2020-11-19
 
