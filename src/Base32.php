@@ -43,10 +43,7 @@ class Base32
     public const GMP = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
     public const HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
 
-    /**
-      * @var Base32\GmpEncoder|Base32\PhpEncoder
-      */
-    private $encoder;
+    private BaseEncoder $encoder;
 
     /**
       * @param string $characters Character set to use for encoding
