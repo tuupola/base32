@@ -33,7 +33,8 @@ SOFTWARE.
 
 namespace Tuupola;
 
-use Tuupola\Base32\BaseEncoder;
+use Tuupola\Base32\GmpEncoder;
+use Tuupola\Base32\PhpEncoder;
 
 class Base32
 {
@@ -43,7 +44,7 @@ class Base32
     public const GMP = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
     public const HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
 
-    private BaseEncoder $encoder;
+    private GmpEncoder|PhpEncoder $encoder;
 
     /**
       * @param string $characters Character set to use for encoding
@@ -51,9 +52,9 @@ class Base32
       * @param bool $crockford Use Crockford encoding if true
       */
     public function __construct(
-        private string $characters = Base32::RFC4648,
-        private string|false $padding = "=",
-        private bool $crockford = false
+        private readonly string $characters = Base32::RFC4648,
+        private readonly string|false $padding = "=",
+        private readonly bool $crockford = false
     ) {
         if (function_exists("gmp_init")) {
             $this->encoder = new Base32\GmpEncoder(
