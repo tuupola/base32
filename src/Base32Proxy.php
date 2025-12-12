@@ -38,9 +38,18 @@ use Tuupola\Base32;
 class Base32Proxy
 {
     /**
+      * @var string Character set to use for encoding
       */
     public static string $characters = Base32::RFC4648;
+
+    /**
+      * @var string|false Padding character or false if not used
+      */
     public static string|false $padding = "=";
+
+    /**
+      * @var bool Use Crockford encoding if true
+      */
     public static bool $crockford = false;
 
     /**
