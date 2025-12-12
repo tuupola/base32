@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## [3.0.0](https://github.com/tuupola/base32/compare/2.0.0...3.0.0) - unreleased
+
+### Changed
+- Constructors now use named parameters ([#37](https://github.com/tuupola/base32/pull/37)).
+
+
 ## [2.0.0](https://github.com/tuupola/base32/compare/1.0.0...2.0.0) - 2020-11-19
 
 ### Added
