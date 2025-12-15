@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## [2.0.1](https://github.com/tuupola/base32/compare/2.0.0...2.0.1) - unreleased
+
+### Fixed
+- Roundtrip of decoding and encoding integer 0 failed with some settings ([#30](https://github.com/tuupola/base32/issues/30), [#40](https://github.com/tuupola/base32/pull/40/files)).
+
 ## [2.0.0](https://github.com/tuupola/base32/compare/1.0.0...2.0.0) - 2020-11-19
 
 ### Added
