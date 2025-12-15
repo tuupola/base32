@@ -3,7 +3,7 @@
 This library implements Base32 encoding. In addition to integers it can encode and decode any arbitrary data.
 
 [![Latest Version](https://img.shields.io/packagist/v/tuupola/base32.svg?style=flat-square)](https://packagist.org/packages/tuupola/base32)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/tuupola/base32/tests.yml?branch=2.x&style=flat-square)](https://github.com/tuupola/base32/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/tuupola/base32.svg?style=flat-square)](https://codecov.io/github/tuupola/base32)
 
@@ -175,4 +175,4 @@ If you discover any security related issues, please email tuupola@appelsiini.net
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
