@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2020 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -156,7 +156,7 @@ class GmpEncoder extends BaseEncoder
      */
     public function decodeInteger(string $data): int
     {
-        if (empty($data)) {
+        if ($data === "") {
             throw new InvalidArgumentException(
                 "Cannot decode empty string as integer"
             );

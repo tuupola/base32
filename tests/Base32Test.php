@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 /*
 
-Copyright (c) 2017-2020 Mika Tuupola
+Copyright (c) 2017-2025 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -441,6 +441,34 @@ class Base32Test extends TestCase
         $this->assertEquals($data, $gmp->decode($encoded1));
         $this->assertEquals($data, $gmp->decode($encoded2));
         $this->assertEquals($data, $gmp->decode($encoded3));
+    }
+
+    /**
+     * @dataProvider configurationProvider
+     */
+    public function testBug30ShouldEncodeAndDecodeZero($configuration)
+    {
+        $data = 0;
+
+        $php = new PhpEncoder($configuration);
+        $gmp = new GmpEncoder($configuration);
+        $base32 = new Base32($configuration);
+
+        $encoded = $php->encodeInteger($data);
+        $encoded2 = $gmp->encodeInteger($data);
+        $encoded4 = $base32->encodeInteger($data);
+
+        Base32Proxy::$options = $configuration;
+        $encoded5 = Base32Proxy::encodeInteger($data);
+
+        $this->assertEquals($encoded2, $encoded);
+        $this->assertEquals($encoded4, $encoded);
+        $this->assertEquals($encoded5, $encoded);
+
+        $this->assertEquals($data, $php->decodeInteger($encoded));
+        $this->assertEquals($data, $gmp->decodeInteger($encoded2));
+        $this->assertEquals($data, $base32->decodeInteger($encoded4));
+        $this->assertEquals($data, Base32Proxy::decodeInteger($encoded5));
     }
 
     public function configurationProvider()
